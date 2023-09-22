@@ -1,0 +1,32 @@
+CREATE TABLE "admin" (
+  "id" SERIAL PRIMARY KEY
+);
+
+CREATE TABLE "user" (
+  "id" SERIAL PRIMARY KEY,
+  "name" TEXT NOT NULL,
+  "age" TIMESTAMP,
+  "work_exp" INTEGER,
+  "image" TEXT NOT NULL
+);
+
+CREATE TABLE "vacancy" (
+  "id" SERIAL PRIMARY KEY,
+  "time_pub" TIMESTAMP,
+  "place" TEXT NOT NULL,
+  "salary" INTEGER,
+  "requirements" TEXT NOT NULL,
+  "name_company" TEXT NOT NULL
+);
+
+CREATE TABLE "user_vacancy" (
+  "user" INTEGER NOT NULL,
+  "vacancy" INTEGER NOT NULL,
+  PRIMARY KEY ("user", "vacancy")
+);
+
+CREATE INDEX "idx_user_vacancy" ON "user_vacancy" ("vacancy");
+
+ALTER TABLE "user_vacancy" ADD CONSTRAINT "fk_user_vacancy__user" FOREIGN KEY ("user") REFERENCES "user" ("id");
+
+ALTER TABLE "user_vacancy" ADD CONSTRAINT "fk_user_vacancy__vacancy" FOREIGN KEY ("vacancy") REFERENCES "vacancy" ("id")
