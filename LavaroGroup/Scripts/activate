@@ -38,7 +38,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="E:\GitHubRepos\LavaroPrivate\LavaroGroup"
+VIRTUAL_ENV="D:\garbage\LavaroPrivate\LavaroGroup"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
