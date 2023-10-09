@@ -5,9 +5,11 @@ from django import forms
 from django.contrib.auth.models import User
 
 # Create your models here.
-class MyUser():
-    login = models
-    pass
+
+class MyUser(models.Model):
+    login = models.EmailField()
+    password = models.CharField(max_length=100)
+
 
 
 class UserProfile(models.Model):
