@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-241q$%l6umbm!4duk=uk4307(so1(v@b54x2+9fa7v*e+(rbxk'
+SECRET_KEY = 'django-insecure-kl6(1oq-u#g5_5(l#xvsa7r0#wf0d7%evi6(n4e0d-@$diq3%p'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'LavaroWeb.apps.LavarowebConfig',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +76,7 @@ WSGI_APPLICATION = 'Lavaro.wsgi.application'
 
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'lavaroDB',                      
         'USER': 'postgres',
         'PASSWORD': '1111',
