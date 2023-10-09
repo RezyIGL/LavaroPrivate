@@ -11,7 +11,6 @@ class MyUser(models.Model):
     password = models.CharField(max_length=100)
 
 
-
 class UserProfile(models.Model):
     user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
