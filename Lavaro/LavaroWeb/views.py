@@ -1,5 +1,5 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.db import models
 from django.urls import reverse
 from django.views import generic
@@ -21,7 +21,9 @@ def chat(reguest):
     return HttpResponse('<h1>Chats</h1>')
 
 
-def vacancy(request, id):
-    return HttpResponse('<h2>Vacancy {id}</h2>')
+def vacancy(request, vacancy_id):
+    return HttpResponse(f'<h2>Vacancy {vacancy_id}</h2>')
 
 
+def page_not_found(request, exception):
+    return HttpResponseNotFound("<h1>Page not found</h1>")

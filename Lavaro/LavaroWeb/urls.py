@@ -11,5 +11,8 @@ urlpatterns = [
     
     path("LavaroWeb/Profile", views.profile),
     path("LavaroWeb/", views.home),
-    path("LavaroWeb/Chats", views.chat)
+    path("LavaroWeb/Chats", views.chat),
+    path("LavaroWeb/Vacancy/<int:vacancy_id>", views.vacancy)
 ]
+
+
