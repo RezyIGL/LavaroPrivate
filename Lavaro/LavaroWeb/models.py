@@ -2,13 +2,13 @@ from django.db import models
 from django.utils import timezone
 from django.contrib import admin
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-
-class MyUser(models.Model):
-    login = models.EmailField()
-    password = models.CharField(max_length=100)
+class MyUser(AbstractUser):
+    
+    def __str__(self):
+        return self.username
 
 
 class UserProfile(models.Model):
