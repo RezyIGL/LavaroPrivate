@@ -10,11 +10,15 @@ from .models import MyUser, UserProfile, Vacancy, Response, \
 # Create your views here.
 
 def home(request):
-    return HttpResponse('<h1>Main page</h1>')
+    template_name = "LavaroWeb/home.html"
+
+    return render(request, template_name)
 
 
 def profile(request):
-    return HttpResponse('<h1>Profile</h1>')
+    template_name = "LavaroWeb/profile.html"
+
+    return render(request, template_name)
 
 
 def chat(reguest):
