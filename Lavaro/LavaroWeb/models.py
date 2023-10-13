@@ -20,11 +20,21 @@ class UserProfile(models.Model):
 
 
 class Vacancy(models.Model):
-    author = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    requirement = models.CharField(max_length=500)
+    author = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='vacancy')
+    requirement = models.TextField(max_length=500)
     title = models.CharField(max_length=100)
     salary = models.FloatField(null=True, blank=True)
-    additionalDate = models.CharField(max_length=200, null=True, blank=True)
+    additionalDate = models.TextField(max_length=200, null=True, blank=True)
+    publish = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-publish']
+        indexes = [models.Index(fields=['-publish'])]
+    
+    def __str__(self):
+        return self.title
 
 
 class Response(models.Model):
@@ -42,6 +52,8 @@ class UserChat(models.Model):
 
 
 class Message(models.Model):
-    auther = models.ForeignKey(MyUser, on_delete=models.CASCADE)
+    auther = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='message')
     chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
-    text = models.CharField(max_length=500)
+    text = models.TextField(max_length=500)
+    publish = models.DateTimeField(default=timezone.now)
+    updated = models.DateTimeField(auto_now=True)
