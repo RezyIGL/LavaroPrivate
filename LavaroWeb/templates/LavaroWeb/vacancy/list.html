@@ -1,0 +1,18 @@
+{% extends "Lavaro/base.html" %}
+
+{% block title %} Main Page {% endblock %}
+
+{% block content %}
+    <h1>Vacancy</h1>
+    {% for vacancy in plenty_vacancy %}
+        <h2>
+            <a href="{% url 'LavaroWeb:vacancy_detail' vacancy.id %}">
+                {{ vacancy.title }}
+            </a>
+        </h2>
+        <p class="date">
+            Published {{ vacancy.publish }} by {{ vacancy.author }}
+        </p>
+        {{ vacancy.requirement|truncatechars:30|linebreaks }}
+    {% endfor %}
+{% endblock %}
