@@ -2,11 +2,11 @@ from django.db import models
 from django.utils import timezone
 from django.contrib import admin
 from django import forms
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, User
 from django.urls import reverse
 
 # Create your models here.
-class MyUser(AbstractUser):
+class MyUser(User):
     
     def __str__(self):
         return self.username

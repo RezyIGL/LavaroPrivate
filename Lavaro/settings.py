@@ -28,7 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-AUTH_USER_MODEL = 'LavaroWeb.MyUser'
+#AUTH_USER_MODEL = 'LavaroWeb.MyUser'
+LOGIN_REDIRECT_URL = '/'
 
 # Application definition
 
@@ -57,7 +58,7 @@ ROOT_URLCONF = 'Lavaro.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
