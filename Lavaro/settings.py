@@ -81,7 +81,7 @@ DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "lavaroDB",
-        'USER': "LavaroDB",
+        'USER': "postgres",
         'PASSWORD': "1111",
         'HOST': "localhost",
         'PORT': "5432",
