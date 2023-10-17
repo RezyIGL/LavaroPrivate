@@ -44,7 +44,7 @@ def vacancy_list(request):
 def profile_detail(request, profile_id):
     template_name = "LavaroWeb/profile/detail.html" # тут подправил (советую изменить свою часть)
     try:
-        profile = UserProfile.objects.get(id=profile_detail)
+        profile = UserProfile.objects.get(id=profile_id)
     except UserProfile.DoesNotExist:
         raise Http404("No Profile found.")
 
