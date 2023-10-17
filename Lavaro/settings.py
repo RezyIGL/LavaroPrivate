@@ -78,14 +78,14 @@ WSGI_APPLICATION = 'Lavaro.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'LavaroDB',                      
-        'USER': 'postgres',
-        'PASSWORD': '1111',
-        'HOST': 'localhost',
-        'PORT': 5432,
-    }
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "lavaroDB",
+        'USER': "postgres",
+        'PASSWORD': "1111",
+        'HOST': "localhost",
+        'PORT': "5432",
+    },
 }
 
 
