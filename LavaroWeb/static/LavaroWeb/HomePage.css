@@ -18,8 +18,6 @@
     margin-top: 100px;
     margin-bottom: 100px;
     padding: 10px;
-    width: 50%;
-    height: 25%;
 }
 
 .header {
@@ -31,6 +29,7 @@
 
 .LogInButton { 
     align-self: center;
+    border: none;
     border-radius: 5px;
     width: 100%;
     height: 100%;
@@ -42,6 +41,7 @@
 
 .RegisterButton { 
     align-self: center;
+    border: none;
     border-radius: 5px;
     width: 100%;
     height: 100%;
@@ -65,7 +65,8 @@ p {
     text-align: center;
 }
 
-input[type=text] {
+input {
+    border: none;
     background-color: #134074;
     border-radius: 10px;
     font-family: Comfortaa;
