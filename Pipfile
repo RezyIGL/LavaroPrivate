@@ -9,6 +9,7 @@ pillow = "*"
 psycopg2 = "*"
 postgres = "*"
 django-revproxy = "*"
+python-decouple = "*"
 
 [dev-packages]
 
