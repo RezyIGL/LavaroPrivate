@@ -4,9 +4,7 @@
 
 {% block title %}
 <head>
-    <title>
-        Welcome page
-    </title>
+    <title>Welcome page</title>
 </head>
 {% endblock %}
 
@@ -21,15 +19,15 @@
         </div>
 
         <div class="loginHolder">
-            <p for="login"> Login </p>
-            <input type="text" id="login" placeholder="YourLogin" minlength="1"> </input>
+            <p> Login </p>
+            <input type="text" id="login" placeholder="LavaroCreator" minlength="1"> </input>
             <p> Password </p>
-            <input type="password" id="password" placeholder="YourPassword" minlength="1"> </input> <br> <br>
-            <button class="RegisterButton" onclick="">
+            <input type="text" id="password" placeholder="LavaroTheBest" minlength="1"> </input> <br> <br>
+            <button class="RegisterButton" onclick="location.href='{% url 'LavaroWeb:chats' %}'">
                 Register
             </button>
             <br> <br>
-            <button class="LogInButton" onclick="">
+            <button class="LogInButton" onclick="location.href='{% url 'LavaroWeb:profile_detail' %}'">
                 Log In
             </button>
         </div>
