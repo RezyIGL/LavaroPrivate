@@ -27,16 +27,16 @@
     color: #EEF4ED;
 }
 
-.LogInButton { 
-    align-self: center;
-    border: none;
+a {
     border-radius: 5px;
     width: 100%;
     height: 100%;
     font-family: Comfortaa;
-    font-size: 24px;
-    font-weight: 550;
+    color: #000;
+    background-color: #F1FAEE;
     padding: 5px;
+    font-size: 24px;
+    align-self: center;
 }
 
 .RegisterButton { 

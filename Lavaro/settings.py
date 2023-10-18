@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'Lavaro.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "lavaroDB",
+        "NAME": "LavaroDB",
         'USER': "postgres",
         'PASSWORD': "1111",
         'HOST': "localhost",

@@ -36,9 +36,58 @@ ul li ul.dropdown {
 }
 
 ul li a:hover {
-    background: #0B2545;
+    background: #0f3a6f;
 }
 
 ul li:hover ul.dropdown {
     display: block;
+}
+
+body {
+    background-color: #dde4da;
+}
+
+p {
+    color: #EEF4ED; 
+    background-color: #134074;
+    font-size: 32px;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+}
+
+.profileHolder {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #F1FAEE;
+    width:initial;
+    height: fit-content;
+    padding-bottom: 20px;
+    border-radius: 30px;
+}
+
+.profileTextHolder {
+    margin: 20px;
+    border-radius: 30px;
+    display: inline-block;
+}
+
+button {
+    border-radius: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 32px;
+    padding: 20px;
+    font-family: Comfortaa;
+}
+
+img {
+    display:inline-block;
+    border-radius: 30px;
+    border-color: #000;
+    border-style:inset;
+    margin: 20px;
+    vertical-align: top;
 }

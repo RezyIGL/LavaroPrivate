@@ -25,13 +25,15 @@
             <input type="text" id="login" placeholder="YourLogin" minlength="1"> </input>
             <p> Password </p>
             <input type="password" id="password" placeholder="YourPassword" minlength="1"> </input> <br> <br>
-            <button class="RegisterButton" onclick="">
+            <button class="RegisterButton">
                 Register
             </button>
             <br> <br>
-            <button class="LogInButton" onclick="">
+            <a href="{% url 'LavaroWeb:profile_detail' user.id%}">
+                <button class="LogInButton" type="button">
                 Log In
-            </button>
+                </button>
+            </a>
         </div>
     </body>
 {% endblock %}

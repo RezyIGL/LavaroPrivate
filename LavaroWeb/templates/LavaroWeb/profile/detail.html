@@ -1,16 +1,53 @@
-{% extends "LavaroWeb/base.html" %}
+{% load static %}
 
-{% block title %}{{ Profile }}{% endblock %}
+<link rel="stylesheet" href="{% static 'LavaroWeb/Profile.css' %}"/>
+
+{% block title %}
+
+<head>
+    <title>
+        Profile
+    </title>
+</head>
+
+{% endblock %}
 
 {% block content %}
-    <h1>{{ description }}</h1>
-    <p class="date">
-        Username: {{ profile.name }}
-    </p>
-    <p class="date">
-        Age: {{ profile.age }}
-    </p>
-    <p class="date">
-        Expirience: {{ profile.expirience }}
-    </p>
+<body>
+    <div>
+        <ul>
+            <li> 
+                <a href="{% url 'LavaroWeb:welcomePage' %}"> 
+                    Main Page
+                </a> 
+            </li>
+            <li>
+                <a href="#"> Extra menu </a>
+                <ul class="dropdown">
+                    <li> <a href="#"> Chats </a> </li>
+                    <li> <a href="#"> Profile </a> </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="profileHolder">
+        <img src="{% static 'LavaroWeb/media/capys.jpg' %}" alt="Profile picture" width="450" height="450" readonly="true" align="center"/>
+        <div class="profileTextHolder">
+            <p>
+                Username: {{ profile.name }}
+            </p>
+
+            <p> 
+                Age: {{ profile.age }}
+            </p>
+
+            <p> 
+                Expirience: {{ profile.expirience }}
+            </p>
+
+            <button> Change Avatar </button>
+            <button> Delete Avatar </button>
+        </div>
+    </div>
+</body>
 {% endblock %}
