@@ -81,14 +81,12 @@ WSGI_APPLICATION = 'Lavaro.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-
         "NAME": config('PGNAME'),
         'USER': config('PGUSER'),
         'PASSWORD': config('PGPASS'),
         'HOST': config('PGHOST'),
         'PORT': config('PGPORT'),
         },
-
 }
 
 # Password validation
