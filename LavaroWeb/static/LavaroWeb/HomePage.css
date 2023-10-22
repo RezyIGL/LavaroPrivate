@@ -29,15 +29,21 @@
     color: #EEF4ED;
 }
 
+<<<<<<< HEAD
 .LogInButton { 
     align-self: center;
+=======
+a {
+>>>>>>> 5615c019c32162bf0a827a3dc5b0d15ea0e64cbd
     border-radius: 5px;
     width: 100%;
     height: 100%;
     font-family: Comfortaa;
-    font-size: 24px;
-    font-weight: 550;
+    color: #000;
+    background-color: #F1FAEE;
     padding: 5px;
+    font-size: 24px;
+    align-self: center;
 }
 
 .RegisterButton { 
