@@ -30,7 +30,9 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 #AUTH_USER_MODEL = 'LavaroWeb.MyUser'
-LOGIN_REDIRECT_URL = '/'
+#LOGIN_REDIRECT_URL = '/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 
@@ -81,21 +83,13 @@ WSGI_APPLICATION = 'Lavaro.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-<<<<<<< HEAD
         "NAME": config('PGNAME'),
         'USER': config('PGUSER'),
         'PASSWORD': config('PGPASS'),
         'HOST': config('PGHOST'),
         'PORT': config('PGPORT'),
         },
-=======
-        "NAME": "LavaroDB",
-        'USER': "postgres",
-        'PASSWORD': "1111",
-        'HOST': "localhost",
-        'PORT': "5432",
-    },
->>>>>>> 5615c019c32162bf0a827a3dc5b0d15ea0e64cbd
+
 }
 
 # Password validation

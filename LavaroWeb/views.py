@@ -7,6 +7,8 @@ from django.views import generic
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
+from django.contrib.auth import authenticate, login
+from .forms import LoginForm
 
 from .models import MyUser, UserProfile, Vacancy, Response, \
     Chat, UserChat, Message
@@ -68,3 +70,21 @@ def vacancy_detail(request, vacancy_id):
 
 def page_not_found(request, exception):
     return HttpResponseNotFound("<h1>Page not found</h1>")
+
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            user = authenticate(request, username=cd['username'], password=cd['password'])
+            
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return HttpResponse("Authenticated successfully")
+                else:
+                    return HttpResponse("Disable account")
+    else:
+        form = LoginForm()
+    return render(request, 'LavaroWeb/home.html', {'form': form})

@@ -22,14 +22,7 @@
             <p> Login </p>
             <input type="text" id="login" placeholder="LavaroCreator" minlength="1"> </input>
             <p> Password </p>
-<<<<<<< HEAD
-            <input type="text" id="password" placeholder="LavaroTheBest" minlength="1"> </input> <br> <br>
-            <button class="RegisterButton" onclick="location.href='{% url 'LavaroWeb:chats' %}'">
-                Register
-            </button>
-            <br> <br>
-            <button class="LogInButton" onclick="location.href='{% url 'LavaroWeb:profile_detail' %}'">
-=======
+
             <input type="password" id="password" placeholder="YourPassword" minlength="1"> </input> <br> <br>
             <button class="RegisterButton">
                 Register
@@ -37,7 +30,6 @@
             <br> <br>
             <a href="{% url 'LavaroWeb:profile_detail' user.id%}">
                 <button class="LogInButton" type="button">
->>>>>>> 5615c019c32162bf0a827a3dc5b0d15ea0e64cbd
                 Log In
                 </button>
             </a>
