@@ -1,5 +1,8 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth import get_user_model
 
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from .models import MyUser, UserProfile, Vacancy
 
 # Register your models here.
@@ -13,11 +16,15 @@ class VacancyAdmin(admin.ModelAdmin):
     raw_id_fields = ['author']
     date_hierarchy = 'publish'
     ordering = ['publish']
-    
 
-@admin.register(MyUser)
-class MyUserAdmin(admin.ModelAdmin):
-    list_display = ['username']
+
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = MyUser
+    list_display = ['email', 'username',]
+
+admin.site.register(MyUser, CustomUserAdmin)
 
 
 @admin.register(UserProfile)

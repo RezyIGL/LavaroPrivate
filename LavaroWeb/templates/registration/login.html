@@ -1,0 +1,16 @@
+{% extends 'base_log.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<h2>Login</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <a href="{% url 'LavaroWeb:profile_detail' user.id%}">
+        <button class="LogInButton" type="button">
+        Log In
+        </button>
+    </a>
+</form>
+{% endblock %}

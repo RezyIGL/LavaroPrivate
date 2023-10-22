@@ -2,13 +2,14 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound, \
                                         Http404
 from django.db import models
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views import generic
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
+from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm
+from .forms import LoginForm, CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from .models import MyUser, UserProfile, Vacancy, Response, \
@@ -44,14 +45,16 @@ def vacancy_list(request):
 '''
 #==============================================================
 
-def profile_detail(request, profile_id):
+def profile_detail(request, user_id):
     template_name = "LavaroWeb/profile/detail.html" # тут подправил (советую изменить свою часть)
     try:
-        profile = UserProfile.objects.get(id=profile_id)
+        profile = UserProfile.objects.get(id=user_id)
     except UserProfile.DoesNotExist:
         raise Http404("No Profile found.")
 
     return render(request, template_name, {'profile': profile})
+
+
 
 
 def chat(reguest):
@@ -73,24 +76,7 @@ def page_not_found(request, exception):
     return HttpResponseNotFound("<h1>Page not found</h1>")
 
 
-def user_login(request):
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            user = authenticate(request, username=cd['username'], password=cd['password'])
-            
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponse("Authenticated successfully")
-                else:
-                    return HttpResponse("Disable account")
-    else:
-        form = LoginForm()
-    return render(request, 'LavaroWeb/home.html', {'form': form})
-
-
-@login_required
-def dashboard(request):
-    return render(request, 'LavaroWeb/dashboard.html', {'section': 'dashboard'})
+class SignUpView(CreateView):
+    form_class = CustomUserCreationForm
+    success_url = reverse_lazy('login')
+    template_name = 'singup.html'

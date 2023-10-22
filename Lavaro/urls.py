@@ -17,12 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from LavaroWeb.views import page_not_found
+from django.views.generic.base import TemplateView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("LavaroWeb/", include("LavaroWeb.urls")),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('LavaroWeb/', include('django.contrib.auth.urls')),
 ]
 
 handler404 = page_not_found

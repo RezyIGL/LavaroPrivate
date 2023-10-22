@@ -29,14 +29,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-#AUTH_USER_MODEL = 'LavaroWeb.MyUser'
-#LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'LavaroWeb.MyUser'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-LOGIN_REDIRECT_URL = 'dashboard'
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
+#LOGIN_REDIRECT_URL = 'Profile/<int:profile_id>'
+#LOGOUT_REDIRECT_URL = 'Lavaro/home'
 
 
 
