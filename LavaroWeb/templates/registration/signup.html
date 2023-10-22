@@ -1,0 +1,35 @@
+{% load static %}
+
+{% block title %}
+    <title>
+        Регистрация
+    </title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+{% endblock %}
+
+{% block content %}
+<body class="container d-flex align-items-center justify-content-center" style="background-color:#F1FAEE; font-family: Comfortaa; color:white;">
+    <div class="card d-flex align-items-center justify-content-center mx-auto w-50 h-70" style="border-radius: 20px">
+        <img src="/media/superultraanimation.gif" class="w-100 h-100" alt="..." style="border-radius: 20px">
+    </div>
+    <div class="card d-flex align-items-center justify-content-center mx-auto my-auto text-center" style="border-radius:20px; background-color:#0B2545">
+		<div class="card-body">
+			<h3 class="card-title" style="margin:10px"> Регистрация </h1>
+			<br>
+			<form method="post">
+				{% csrf_token %}
+				<div class="form-group">
+					<input type="text" max_length="150" autofocus="" required="" id="id_username" name="username" class="form-control mx-auto" placeholder="Имя пользователя" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<input type="email" class="form-control mx-auto" required="" name="email" maxlength="254" id="id_email" placeholder="Электронная почта" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<input type="password" class="form-control mx-auto" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="Пароль" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<input type="password" class="form-control mx-auto" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="Пароль (Повторно)" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<button type="submit" class="btn btn-success w-100 mx-auto" style="padding:10px; border-radius:20px; margin:20px"> Регистрация </button> <br>
+					<a role="button" class="btn btn-danger w-100 mx-auto" href="{% url 'index' %}" style="padding:10px; border-radius:20px"> Вернуться </a>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+{% endblock %}

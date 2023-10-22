@@ -27,10 +27,14 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
-#AUTH_USER_MODEL = 'LavaroWeb.MyUser'
-LOGIN_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'LavaroWeb.MyUser'
+
+#LOGIN_REDIRECT_URL = 'Profile/<int:profile_id>'
+#LOGOUT_REDIRECT_URL = 'Lavaro/home'
+
+
 
 # Application definition
 
@@ -42,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'LavaroWeb.apps.LavarowebConfig',
+    'bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +86,6 @@ WSGI_APPLICATION = 'Lavaro.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-
         "NAME": config('PGNAME'),
         'USER': config('PGUSER'),
         'PASSWORD': config('PGPASS'),
@@ -131,3 +135,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = 'LavaroWeb:vacancy_list'
+LOGOUT_REDIRECT_URL = 'index'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+
+#email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PORT = 25
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'LavaroWeb@gmail.com'
+EMAIL_HOST_PASSWORD = 'LavaroWeb12345'
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
