@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic import ListView
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
+from django.contrib.auth.decorators import login_required
 
 from .models import MyUser, UserProfile, Vacancy, Response, \
     Chat, UserChat, Message
@@ -88,3 +89,8 @@ def user_login(request):
     else:
         form = LoginForm()
     return render(request, 'LavaroWeb/home.html', {'form': form})
+
+
+@login_required
+def dashboard(request):
+    return render(request, 'LavaroWeb/dashboard.html', {'section': 'dashboard'})
