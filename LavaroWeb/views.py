@@ -55,8 +55,6 @@ def profile_detail(request, user_id):
     return render(request, template_name, {'profile': profile})
 
 
-
-
 def chat(reguest):
     template_name = "LavaroWeb/chat/detail.html" # нет файла "html" и нужно доделать
     return HttpResponse("Chat")
@@ -79,4 +77,4 @@ def page_not_found(request, exception):
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
-    template_name = 'singup.html'
+    template_name = 'signup.html'

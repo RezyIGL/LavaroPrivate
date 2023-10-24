@@ -1,14 +1,12 @@
-{% load static %}
-<!DOCTYPE html>
 <html>
 <head>
-    <title>{% block title %}{% endblock %}</title>
-    <link href="{% static "css/LavaroWeb.css" %}" rel="stylesheet">
+  <meta charset="utf-8">
+  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
 </head>
 <body>
-    <div id="content">
-        {% block content %}
-        {% endblock %}
-    </div>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
 </body>
 </html>

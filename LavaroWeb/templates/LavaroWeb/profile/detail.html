@@ -17,7 +17,7 @@
     <div>
         <ul>
             <li> 
-                <a href="{% url 'LavaroWeb:welcomePage' %}"> 
+                <a href="{% url 'home' %}"> 
                     Main Page
                 </a> 
             </li>
@@ -31,7 +31,7 @@
         </ul>
     </div>
     <div class="profileHolder">
-        <img src="{% static 'LavaroWeb/media/capys.jpg' %}" alt="Profile picture" width="450" height="450" readonly="true" align="center"/>
+        <img src="{{ profile.image.url }}" alt="Profile picture" width="450" height="450" readonly="true" align="center"/>
         <div class="profileTextHolder">
             <p>
                 Username: {{ profile.name }}
