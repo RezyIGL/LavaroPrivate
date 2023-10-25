@@ -10,6 +10,7 @@ from django.views.generic import ListView
 from django.views.generic.edit import CreateView
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm, CustomUserCreationForm
+from .signals import create_profile
 from django.contrib.auth.decorators import login_required
 
 from .models import MyUser, UserProfile, Vacancy, Response, \
@@ -78,3 +79,13 @@ class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
+    
+    def post (self, request):
+        super(CreateView, self).post(request)
+        
+        username = request.POST['username']
+        user_id = MyUser.objects.get(username=username)
+        profile = UserProfile.objects.create(user=user_id)
+        profile.save()
+
+        return redirect("login/")

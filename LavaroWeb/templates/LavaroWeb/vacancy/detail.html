@@ -12,4 +12,5 @@
         Salary = {{ vacancy.salary }}
     </p>
     {{ vacancy.additionalDate|linebreaks }}
+    <a href="{% url 'LavaroWeb:vacancy_list' %}">All Vacancies</a>
 {% endblock %}
