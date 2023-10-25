@@ -3,6 +3,22 @@
 {% block title %} Main Page {% endblock %}
 
 {% block content %}
+    <div>
+        <ul>
+            <li> 
+                <a href="{% url 'LavaroWeb:vacancy_list' %}"> 
+                    Vacancies
+                </a> 
+            </li>
+            <li>
+                <a href="#"> Extra menu </a>
+                <ul class="dropdown">
+                    <li> <a href="#"> Chats </a> </li>
+                    <li> <a href="{% url 'LavaroWeb:profile_detail' user.id %}"> Profile </a> </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
     <h1>Vacancy</h1>
     {% for vacancy in plenty_vacancy %}
         <h2>
@@ -15,5 +31,6 @@
         </p>
         {{ vacancy.requirement|truncatechars:200|linebreaks }}
     {% endfor %}
+
     {% include "pagination.html" with page=plenty_vacancy %}
 {% endblock %}
