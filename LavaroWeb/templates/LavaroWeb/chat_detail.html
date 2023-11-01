@@ -1,0 +1,15 @@
+{% block content %}
+    <h2>Chat with participants: {{ chat.participants.all|join:", " }}</h2>
+    <ul>
+        {% for message in messages %}
+            <li>[{{ message.timestamp|date:"SHORT_DATE_FORMAT" }} {{ message.timestamp|time:"TIME_FORMAT" }}] {{ message.sender.username }}: {{ message.text }}</li>
+        {% empty %}
+            <p>No messages.</p>
+        {% endfor %}
+    </ul>
+    <form method="post" action="{% url 'chat_detail' chat.id %}">
+        {% csrf_token %}
+        <textarea name="text"></textarea>
+        <button type="submit">Send</button>
+    </form>
+{% endblock %}

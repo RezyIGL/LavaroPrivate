@@ -3,7 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from .models import MyUser, UserProfile, Vacancy
+from .models import MyUser, UserProfile, Vacancy, Chat
 
 # Register your models here.
 
@@ -33,3 +33,12 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_filter = ['age', 'expirience']
     search_fields = ['name']
     raw_id_fields = ['user']
+
+
+@admin.register(Chat)
+class ChatAdmin(admin.ModelAdmin):
+    list_display = ["id", "last_modified"]
+    list_filter = ["last_modified"]
+    search_fields = ["participants"]
+    date_hierarchy = "last_modified"
+    ordering = ["last_modified"]

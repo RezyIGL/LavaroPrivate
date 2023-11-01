@@ -1,0 +1,10 @@
+{%block content %}
+    <h2>List of chats</h2>
+    <ul>
+        {% for chat in chats %}
+            <li><a href="{% url "chat_detail" chat.id %}">{{ chat }}</a> ({{ chat.last_modified }})</li>
+        {% empty %}
+            <p>You have no chats</p>
+        {% endfor %}
+    </ul>
+{% endblock %}

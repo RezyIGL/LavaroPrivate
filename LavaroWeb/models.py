@@ -53,17 +53,23 @@ class Response(models.Model):
 
 
 class Chat(models.Model):
-    name = models.CharField(max_length=255)
-
-
-class UserChat(models.Model):
-    user = models.ForeignKey(MyUser, on_delete=models.CASCADE)
-    chat = models.ForeignKey(Chat, on_delete=models.PROTECT)
+    participants = models.ManyToManyField(MyUser, related_name="chats")
+    last_modified = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-last_modified']
+        indexes = [models.Index(fields=['-last_modified'])]
+    
+    
+    def __str__(self):
+        return f"Chat {self.id}: [{', '.join([p.username for p in self.participants.all()])}]"
 
 
 class Message(models.Model):
-    auther = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='message')
-    chat = models.ForeignKey(Chat, on_delete=models.CASCADE)
+    sender = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name="sent_message")
+    chat = models.ForeignKey(Chat, on_delete=models.CASCADE, related_name="message")
     text = models.TextField()
-    publish = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(auto_now=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Message {self.id}: {self.sender} to {self.chat}"
