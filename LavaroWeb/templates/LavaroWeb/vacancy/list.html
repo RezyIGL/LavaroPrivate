@@ -14,7 +14,11 @@
                 <a href="#"> Extra menu </a>
                 <ul class="dropdown">
                     <li> <a href="#"> Chats </a> </li>
-                    <li> <a href="{% url 'LavaroWeb:profile_detail' user.id %}"> Profile </a> </li>
+                    {% if user.userprofile.id %}
+                    <li> <a href="{% url 'LavaroWeb:profile_detail' user.userprofile.id %}"> Profile </a> </li>
+                    {% else %}
+                    <li> <a> No Profile </a> </li>
+                    {% endif %}
                 </ul>
             </li>
             <li>
