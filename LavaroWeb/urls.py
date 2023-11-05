@@ -13,7 +13,7 @@ urlpatterns = [
     path("Chats", views.chat, name="chats"),
     
     #new
-    path("chats", views.chats_list, name="chats_list"),
+    path("chats/", views.chats_list, name="chats_list"),
     path("chats/<int:chat_id>", views.chat_detail, name="chat_detail"),
     path("chats/<int:chat_id>/add", views.add_participant, name="add_participant"),
     

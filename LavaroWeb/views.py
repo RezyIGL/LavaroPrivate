@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
@@ -7,6 +8,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from .models import MyUser, UserProfile, Vacancy, Response, Chat, Message
+
 
 # Create your views here.
 def home(request):
@@ -72,6 +74,7 @@ class SignUpView(CreateView):
         profile = UserProfile.objects.create(user=user_id)
         profile.save()
 
+
         return redirect('LavaroWeb:home')
     
 #block Chats and Message
@@ -86,11 +89,11 @@ def chats_list(request):
 def chat_detail(request, chat_id):
     template_name = "LavaroWeb/chat_detail.html"
     chat = get_object_or_404(Chat, id=chat_id)
-    messages = chat.messages.all().order_by("timestamp")
+    messages = chat.message.all().order_by("timestamp")
     if request.method == "POST":
         text = request.POST.get("text")
         message = Message.objects.create(sender=request.user, chat=chat, text=text)
-        return HttpResponseRedirect(reverse("chat_detail", args=[chat_id]))
+        return HttpResponseRedirect(reverse("LavaroWeb:chat_detail", args=[chat_id]))
     return render(request, template_name, {"chat": chat, "messages": messages})
 
 
@@ -103,5 +106,5 @@ def add_participant(request, chat_id):
         user = MyUser.objects.filter(username=username).first()
         if user:
             chat.participants.add(user)
-            return HttpResponseRedirect(reverse("chat_detail", arg=[chat.id]))
+            return HttpResponseRedirect(reverse("LavaroWeb:chat_detail", arg=[chat.id]))
         return render(request, template_name, {"chat": chat})

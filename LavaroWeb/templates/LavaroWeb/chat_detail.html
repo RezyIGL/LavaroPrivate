@@ -7,7 +7,7 @@
             <p>No messages.</p>
         {% endfor %}
     </ul>
-    <form method="post" action="{% url 'chat_detail' chat.id %}">
+    <form method="post" action="{% url 'LavaroWeb:chat_detail' chat.id %}">
         {% csrf_token %}
         <textarea name="text"></textarea>
         <button type="submit">Send</button>
