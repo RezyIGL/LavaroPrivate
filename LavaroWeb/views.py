@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
@@ -7,6 +8,7 @@ from .forms import CustomUserCreationForm
 from django.contrib.auth.decorators import login_required
 
 from .models import MyUser, UserProfile, Vacancy, Response, Chat, Message
+
 
 # Create your views here.
 def home(request):
@@ -71,6 +73,7 @@ class SignUpView(CreateView):
         user_id = MyUser.objects.get(username=username)
         profile = UserProfile.objects.create(user=user_id)
         profile.save()
+
 
         return redirect('LavaroWeb:home')
     
