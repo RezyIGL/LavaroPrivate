@@ -10,13 +10,35 @@ from django.contrib.auth.decorators import login_required
 from .models import MyUser, UserProfile, Vacancy, Response, Chat, Message
 
 
-# Create your views here.
+#home page
 def home(request):
     template_name = "LavaroWeb/home.html"
 
     return render(request, template_name)
 
+#profile & response
+def profile_detail(request, user_id):
+    template_name = "LavaroWeb/profile/detail.html"
+    try:
+        profile = UserProfile.objects.get(id=user_id)
+    except UserProfile.DoesNotExist:
+        raise Http404("No Profile found.")
 
+    return render(request, template_name, {'profile': profile})
+
+#требует тестирования и отладки
+def do_response(request,vacancy_id):
+    template_name = "LavaroWeb/chats_list.html"
+    chats = Chat.objects.filter(participants__in = [request.user]) & Chat.objects.filter(participants__in=[vacancy_id.author])
+    if chats is not None:
+        chats = request.user.chats.order_by("-last_modified")
+        return render(request, template_name, {"chats": chats})
+    chat = Chat.objects.create(participants = [request.user, vacancy_id.author])
+    chat.save()
+    chats = request.user.chats.order_by("-last_modified")
+    return render(request, template_name, {"chats": chats})
+
+#Vacancy
 def vacancy_list(request):
     template_name = "LavaroWeb/vacancy/list.html"
     vacancy_list = Vacancy.objects.all()
@@ -32,21 +54,6 @@ def vacancy_list(request):
     return render(request, template_name, {'plenty_vacancy': plenty_vacancy})
 
 
-def profile_detail(request, user_id):
-    template_name = "LavaroWeb/profile/detail.html"
-    try:
-        profile = UserProfile.objects.get(id=user_id)
-    except UserProfile.DoesNotExist:
-        raise Http404("No Profile found.")
-
-    return render(request, template_name, {'profile': profile})
-
-
-def chat(request):
-    template_name = "LavaroWeb/chat/detail.html"
-    return HttpResponse(request, template_name)
-
-
 def vacancy_detail(request, vacancy_id):
     template_name = "LavaroWeb/vacancy/detail.html"
     try:
@@ -56,11 +63,7 @@ def vacancy_detail(request, vacancy_id):
     
     return render(request, template_name, {'vacancy': vacancy})
 
-
-def page_not_found(request, exception):
-    return HttpResponseNotFound("<h1>Page not found</h1>")
-
-
+#login & signup
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
@@ -76,8 +79,13 @@ class SignUpView(CreateView):
 
 
         return redirect('LavaroWeb:home')
-    
+
 #block Chats and Message
+def chat(request):
+    template_name = "LavaroWeb/chat/detail.html"
+    return HttpResponse(request, template_name)
+
+
 @login_required
 def chats_list(request):
     template_name = "LavaroWeb/chats_list.html"
@@ -108,3 +116,8 @@ def add_participant(request, chat_id):
             chat.participants.add(user)
             return HttpResponseRedirect(reverse("LavaroWeb:chat_detail", arg=[chat.id]))
         return render(request, template_name, {"chat": chat})
+
+
+#page not found
+def page_not_found(request, exception):
+    return HttpResponseNotFound("<h1>Page not found</h1>")
