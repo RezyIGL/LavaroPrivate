@@ -1,35 +1,43 @@
 {% load static %}
 
-<link rel="stylesheet" href="{% static 'LavaroWeb/Profile.css' %}"/>
+<link rel="stylesheet" href="{% static 'css/profile.css' %}"/>
 
-{% block title %}
-
-<head>
+{% block title %} 
     <title>
-        Profile
+        Main Page
     </title>
-</head>
-
 {% endblock %}
 
+{% block header %}
+
+    <header> 
+        <div>
+            <ul>
+                <li> 
+                    <a href="{% url 'LavaroWeb:vacancy_list' %}"> 
+                        Vacancies
+                    </a> 
+                </li>
+                <li>
+                    <a href="#"> Chats </a>
+                </li>
+                <li> 
+                    <a href="{% url 'LavaroWeb:profile_detail' user.userprofile.id %}"> Profile </a>
+                </li>
+                <li>
+                    <a href="#"> ≣ </a>
+                    <ul class="dropdown">
+                        <li> <a href="#"> Settings </a> </li>
+                        <li> <a href="{% url 'logout' %}"> Log Out </a> </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+{% endblock %}
 {% block content %}
 <body>
-    <div>
-        <ul>
-            <li> 
-                <a href="{% url 'LavaroWeb:vacancy_list' %}"> 
-                    Vacancies
-                </a> 
-            </li>
-            <li>
-                <a> Extra menu </a>
-                <ul class="dropdown">
-                    <li> <a href="#"> Chats </a> </li>
-                    <li> <a href="{% url 'LavaroWeb:profile_detail' user.userprofile.id %}"> Profile </a> </li>
-                </ul>
-            </li>
-        </ul>
-    </div>
     <div class="profileHolder">
         <img src="{{ profile.image.url }}" alt="Profile picture" width="450" height="450" readonly="true" align="center"/>
         <div class="profileTextHolder">
@@ -44,9 +52,6 @@
             <p> 
                 Expirience: {{ profile.expirience }}
             </p>
-
-            <button> Change Avatar </button>
-            <button> Delete Avatar </button>
         </div>
     </div>
 </body>
