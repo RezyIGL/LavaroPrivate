@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpRespons
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView
-from .forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
 
 from .models import MyUser, UserProfile, Vacancy, Response, Chat, Message
@@ -25,6 +25,18 @@ def profile_detail(request, user_id):
         raise Http404("No Profile found.")
 
     return render(request, template_name, {'profile': profile})
+
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileUpdateForm(request.POST, instance=UserProfile.objects.get(user=request.user))
+        if profile_form.is_valid():
+            profile_form.save()
+        else:
+            profile_form = ProfileUpdateForm(instance=UserProfile.objects.get(user=request.user))
+    render(request, 'LavaroWeb/profile/setting.html', {'profile_form': profile_form})
+
 
 #требует тестирования и отладки
 def do_response(request,vacancy_id):
