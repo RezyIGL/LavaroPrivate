@@ -24,6 +24,7 @@ ul li a {
 }
 
 ul li ul.dropdown li {
+    width: max-content;
     display: block;
 }
 
@@ -40,6 +41,7 @@ ul li a:hover {
 }
 
 ul li:hover ul.dropdown {
+    width: max-content;
     display: block;
 }
 

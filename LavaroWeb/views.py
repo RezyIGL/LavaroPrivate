@@ -12,13 +12,13 @@ from .models import MyUser, UserProfile, Vacancy, Response, Chat, Message
 
 #home page
 def home(request):
-    template_name = "LavaroWeb/home.html"
+    template_name = "registration/login.html"
 
     return render(request, template_name)
 
 #profile & response
 def profile_detail(request, user_id):
-    template_name = "LavaroWeb/profile/detail.html"
+    template_name = "profile/detail.html"
     try:
         profile = UserProfile.objects.get(id=user_id)
     except UserProfile.DoesNotExist:
@@ -35,12 +35,12 @@ def update_profile(request):
             profile_form.save()
         else:
             profile_form = ProfileUpdateForm(instance=UserProfile.objects.get(user=request.user))
-    render(request, 'LavaroWeb/profile/setting.html', {'profile_form': profile_form})
+    render(request, 'profile/setting.html', {'profile_form': profile_form})
 
 
 #требует тестирования и отладки
 def do_response(request,vacancy_id):
-    template_name = "LavaroWeb/chats_list.html"
+    template_name = "chat/chats_list.html"
     chats = Chat.objects.filter(participants__in = [request.user]) & Chat.objects.filter(participants__in=[vacancy_id.author])
     if chats is not None:
         chats = request.user.chats.order_by("-last_modified")
@@ -52,9 +52,9 @@ def do_response(request,vacancy_id):
 
 #Vacancy
 def vacancy_list(request):
-    template_name = "LavaroWeb/vacancy/list.html"
+    template_name = "vacancy/list.html"
     vacancy_list = Vacancy.objects.all()
-    paginator = Paginator(vacancy_list, 8)
+    paginator = Paginator(vacancy_list, 9)
     page_number = request.GET.get('page', 1)
     try:
         plenty_vacancy = paginator.page(page_number)
@@ -67,7 +67,7 @@ def vacancy_list(request):
 
 
 def vacancy_detail(request, vacancy_id):
-    template_name = "LavaroWeb/vacancy/detail.html"
+    template_name = "vacancy/detail.html"
     try:
         vacancy = Vacancy.objects.get(id=vacancy_id)
     except Vacancy.DoesNotExist:
@@ -79,9 +79,9 @@ def vacancy_detail(request, vacancy_id):
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
     success_url = reverse_lazy('login')
-    template_name = 'signup.html'
+    template_name = 'registration/signup.html'
     
-    def post (self, request):
+    def post(self, request):
         super(CreateView, self).post(request)
         
         username = request.POST['username']
@@ -90,25 +90,24 @@ class SignUpView(CreateView):
         profile = UserProfile.objects.create(user=user_id)
         profile.save()
 
-
-        return redirect('LavaroWeb:home')
+        return redirect('LavaroWeb:index')
 
 #block Chats and Message
 def chat(request):
-    template_name = "LavaroWeb/chat/detail.html"
+    template_name = "chat/detail.html"
     return HttpResponse(request, template_name)
 
 
 @login_required
 def chats_list(request):
-    template_name = "LavaroWeb/chats_list.html"
+    template_name = "chat/chats_list.html"
     chats = request.user.chats.order_by("-last_modified")
     return render(request, template_name, {"chats": chats})
 
 
 @login_required
 def chat_detail(request, chat_id):
-    template_name = "LavaroWeb/chat_detail.html"
+    template_name = "chat/chat_detail.html"
     chat = get_object_or_404(Chat, id=chat_id)
     messages = chat.message.all().order_by("timestamp")
     if request.method == "POST":
@@ -121,7 +120,7 @@ def chat_detail(request, chat_id):
 @login_required
 def add_participant(request, chat_id):
     chat = get_object_or_404(Chat, chat_id)
-    template_name = "LavaroWeb/add_participant.html"
+    template_name = "chat/add_participant.html"
     if request.method == "POST":
         username = request.POST.get("username")
         user = MyUser.objects.filter(username=username).first()

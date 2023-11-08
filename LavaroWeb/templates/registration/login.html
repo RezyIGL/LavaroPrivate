@@ -1,14 +1,33 @@
+{% load static %}
+
 {% block title %}
     <title>
-        Login
+        Авторизация
     </title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 {% endblock %}
 
 {% block content %}
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+<body class="container d-flex align-items-center justify-content-center" style="background-color:#F1FAEE; font-family: Comfortaa; color:white;">
+    <div class="card d-flex align-items-center justify-content-center mx-auto w-50 h-70" style="border-radius: 20px">
+        <img src="/media/superultraanimation.gif" class="w-100 h-100" alt="..." style="border-radius: 20px">
+    </div>
+    <div class="card d-flex align-items-center justify-content-center mx-auto my-auto text-center" style="border-radius:20px; background-color:#0B2545">
+        <div class="card-body">
+            <h3 class="card-title" style="margin:10px"> Авторизация </h1>
+            <br>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group"> 
+                    <input type="text" name="username" class="form-control mx-auto" placeholder="Имя пользователя" style="margin:10px; background-color:#134074; color:white; border: none"> <br>
+                    <input type="password" name="password" class="form-control mx-auto" placeholder="Пароль" style="margin:10px; background-color:#134074; color:white; border:none"> <br>
+                    <button type="submit" class="btn btn-outline-light w-100 mx-auto" style="margin:10px"> Войти </button> <br>
+                    <a role="button" class="btn btn-success w-100 mx-auto" href="{% url 'LavaroWeb:signup' %}"> Регистрация </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
 {% endblock %}
