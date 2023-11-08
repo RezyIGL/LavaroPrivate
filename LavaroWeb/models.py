@@ -10,7 +10,6 @@ from django.db.models.signals import post_save
 # Create your models here.
 class MyUser(AbstractUser):
     
-    
     def __str__(self):
         return "{}".format(self.username)
 

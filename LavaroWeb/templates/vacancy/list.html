@@ -1,0 +1,67 @@
+{% load static %}
+
+{% block title %}
+    <title>
+        Вакансии
+    </title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+{% endblock %}
+
+{% block header %}
+<head>
+    <nav class="navbar navbar-expand-lg" style="padding:20px; background-color: #0B2545; color:white">
+        <span class="navbar-brand mb-0 h2"> Lavaro </span>
+        <div class="collapse navbar-collapse d-flex justify-content-end">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" style="border:none" role="button" href="{% url 'LavaroWeb:vacancy_list'  %}"> Вакансии </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" style="border:none" role="button" href="{% url 'LavaroWeb:chats_list' %}"> Чаты </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" style="border:none" role="button" href="{% url 'LavaroWeb:profile_detail' user.userprofile.id %}"> Профиль </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" style="border:none" role="button" href="#"> Настройки </a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-danger" style="border:none" role="button" href="{% url 'logout' %}"> Выйти </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</head>
+{% endblock %}
+
+{% block content %}
+<body style="background-color:#F1FAEE">
+    <div class="row row-cols-1 row-cols-md-3" style="font-family:Comfortaa; margin:10px">
+        {% for vacancy in plenty_vacancy %}
+        <div class="col mb-4">
+            <div class="card h-100" style="background-color:#0B2545; border-radius:20px">
+                <div class="card-header d-flex align-items-center justify-content-between" style="margin:10px">
+                    <h2 class="card-text" style="color:white"> {{ vacancy.title }} </h2>
+                    <a role="button" class="btn btn-outline-light" href="{{vacancy.get_absolute_url}}" style="margin:20px">
+                        Перейти
+                    </a>
+                </div>
+                <div class="card-body" style="color:white; padding:10px">
+                    <p class="card-text"> {{ vacancy.requirement|linebreaks }} </p>
+                </div>
+                <div class="card-footer mx-max" style="flex-direction: column;">
+                    <small class="text-muted"> Опубликовал - {{ vacancy.author }}.</small> <br>
+                    <small class="text-muted"> Время - {{ vacancy.publish.time }}</small> <br>
+                    <small class="text-muted"> Дата - {{ vacancy.publish.date }}.</small>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+<div class="text fixed-bottom d-flex align-items-center justify-content-center mx-auto my-auto" style="background-color:#0B2545; color:white; font-size:20px">
+    {% include "vacancy/pagination.html" with page=plenty_vacancy %}
+</div>
+{% endblock %}

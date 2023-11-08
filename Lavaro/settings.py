@@ -137,7 +137,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'LavaroWeb:vacancy_list'
-LOGOUT_REDIRECT_URL = '/LavaroWeb/'
+LOGOUT_REDIRECT_URL = 'LavaroWeb:index'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
