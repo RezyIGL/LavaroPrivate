@@ -1,16 +1,37 @@
-{% block title %}
+{% load static %}
+
+<head>
+	{% block head %}
     <title>
         Home
     </title>
-{% endblock %}
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+	{% endblock %}
+</head>
 
-{% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}!
-  <p><a href="{% url 'logout' %}">logout</a></p>
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">login</a> |
-  <a href="{% url 'LavaroWeb:signup' %}">signup</a>
-{% endif %}
-{% endblock %}
+<div class="container">
+	{% if user.is_authenticated %}
+	<br>
+		<div class="card">
+			<div class="card-header">
+				<h2> Hi, {{ user.username }}! </h2>
+			</div>
+			<div class="card-body">
+				<a type="submit" role="button" class="btn btn-primary" href="{% url 'logout' %}">logout</a>
+			</div>
+		</div>
+	{% else %}
+	<br>
+	<div class="card">
+		<div class="card-header">
+			<h2>You are not logged in</h2>
+		</div>
+		<div class="card-body">
+			<a type="submit" role="button" class="btn btn-secondary" href="{% url 'login' %}">Go to Login page</a>
+			<a type="submit" role="button" class="btn btn-success" href="{% url 'LavaroWeb:signup' %}">Create a new user account</a>
+		</div>
+	</div>
+	{% endif %}
+</div>

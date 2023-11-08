@@ -1,14 +1,28 @@
+{% load static %}
+
 {% block title %}
     <title>
-        Login
+        Login page
     </title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 {% endblock %}
 
 {% block content %}
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Login</button>
-    </form>
+    <div class="card bg-dark text-white w-50 text-center" style="margin:10px; margin-left:auto; margin-right:auto">
+        <img src="/media/superultraanimation.gif" class="ml-3" alt="...">
+        <div class="card-img-overlay">
+            <h3 class="card-title" style="margin:10px">Please sign in</h1>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group"> 
+                        <input type="text" name="username" class="form-control" placeholder="Username" style="margin:10px; width:auto">
+                        <input type="password" name="password" class="form-control" placeholder="Password" style="margin:10px; width:auto">
+                        <button type="submit" class="btn btn-secondary" style="margin:10px"> Login </button>
+                        <a role="button" class="btn btn-success" href="{% url 'LavaroWeb:signup' %}">Register</a>
+                    </div>
+                </form>
+        </div>
+    </div>
 {% endblock %}
