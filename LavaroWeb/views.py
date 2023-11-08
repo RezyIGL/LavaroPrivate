@@ -26,7 +26,7 @@ def profile_detail(request, user_id):
 
     return render(request, template_name, {'profile': profile})
 
-
+#требует страницы и отладки
 @login_required
 def update_profile(request):
     if request.method == 'POST':
@@ -86,6 +86,7 @@ class SignUpView(CreateView):
         
         username = request.POST['username']
         user_id = MyUser.objects.get(username=username)
+        #photo = 
         profile = UserProfile.objects.create(user=user_id)
         profile.save()
 
