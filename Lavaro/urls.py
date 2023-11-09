@@ -19,11 +19,12 @@ from django.urls import path, include
 from LavaroWeb.views import page_not_found
 from django.conf import settings
 from django.conf.urls.static import static
-from django.views.generic.base import TemplateView
+from django.views.generic.base import RedirectView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', RedirectView.as_view(url="login"), name='index'),
     path('/', include("LavaroWeb.urls")),
     path('', include('django.contrib.auth.urls')),
 ]
