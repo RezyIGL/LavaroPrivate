@@ -90,7 +90,7 @@ class SignUpView(CreateView):
         profile = UserProfile.objects.create(user=user_id)
         profile.save()
 
-        return redirect('LavaroWeb:index')
+        return redirect('index')
 
 #block Chats and Message
 def chat(request):
