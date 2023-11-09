@@ -21,12 +21,12 @@
 			<form method="post">
 				{% csrf_token %}
 				<div class="form-group">
-					<input type="text" max_length="150" autofocus="" required="" id="id_username" name="username" class="form-control mx-auto" placeholder="Имя пользователя" style="margin:10px; background-color:#134074; color:white; border: none"> <br>
-					<input type="email" class="form-control mx-auto" required="" name="email" maxlength="254" id="id_email" placeholder="Электронная почта" style="margin:10px; background-color:#134074; color:white; border: none"> <br>
-					<input type="password" class="form-control mx-auto" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="Пароль" style="margin:10px; background-color:#134074; color:white; border: none"> <br>
-					<input type="password" class="form-control mx-auto" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="Пароль (Повторно)" style="margin:10px; background-color:#134074; color:white; border: none"> <br>
-					<button type="submit" class="btn btn-success w-100 mx-auto" style="margin:10px"> Регистрация </button> <br>
-					<a role="button" class="btn btn-danger w-100 mx-auto" href="{% url 'index' %}"> Вернуться </a>
+					<input type="text" max_length="150" autofocus="" required="" id="id_username" name="username" class="form-control mx-auto" placeholder="Имя пользователя" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<input type="email" class="form-control mx-auto" required="" name="email" maxlength="254" id="id_email" placeholder="Электронная почта" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<input type="password" class="form-control mx-auto" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="Пароль" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<input type="password" class="form-control mx-auto" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="Пароль (Повторно)" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+					<button type="submit" class="btn btn-success w-100 mx-auto" style="padding:10px; border-radius:20px; margin:20px"> Регистрация </button> <br>
+					<a role="button" class="btn btn-danger w-100 mx-auto" href="{% url 'index' %}" style="padding:10px; border-radius:20px"> Вернуться </a>
 				</div>
 			</form>
 		</div>

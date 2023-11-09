@@ -21,10 +21,10 @@
             <form method="post">
                 {% csrf_token %}
                 <div class="form-group"> 
-                    <input type="text" name="username" class="form-control mx-auto" placeholder="Имя пользователя" style="margin:10px; background-color:#134074; color:white; border: none"> <br>
-                    <input type="password" name="password" class="form-control mx-auto" placeholder="Пароль" style="margin:10px; background-color:#134074; color:white; border:none"> <br>
-                    <button type="submit" class="btn btn-outline-light w-100 mx-auto" style="margin:10px"> Войти </button> <br>
-                    <a role="button" class="btn btn-success w-100 mx-auto" href="{% url 'LavaroWeb:signup' %}"> Регистрация </a>
+                    <input type="text" name="username" class="form-control mx-auto" placeholder="Имя пользователя" style="padding:10px; background-color:#134074; color:white; border-radius:20px; border: none"> <br>
+                    <input type="password" name="password" class="form-control mx-auto" placeholder="Пароль" style="padding:10px; background-color:#134074; color:white; border-radius:20px; border:none"> <br>
+                    <button type="submit" class="btn btn-outline-light w-100 mx-auto" style="padding:10px; border-radius:20px; margin:20px"> Войти </button> <br>
+                    <a role="button" class="btn btn-success w-100 mx-auto" href="{% url 'LavaroWeb:signup' %}" style="padding:10px; border-radius:20px"> Регистрация </a>
                 </div>
             </form>
         </div>
