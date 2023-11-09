@@ -24,7 +24,7 @@ from django.views.generic.base import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("LavaroWeb.urls")),
+    path('/', include("LavaroWeb.urls")),
     path('', include('django.contrib.auth.urls')),
 ]
 if settings.DEBUG:
