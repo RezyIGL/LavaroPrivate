@@ -20,7 +20,11 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ('username', 'email')
 
 class ProfileUpdateForm(forms.ModelForm):
-    
+    name = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    age = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control-file'}))
+    expirience = forms.FloatField()
+    image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
+
     class Meta:
         models = UserProfile
         fields = ['name', 'age', 'expirience', 'image']

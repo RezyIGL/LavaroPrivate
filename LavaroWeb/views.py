@@ -6,6 +6,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView
 from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages as mess
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
 
 from .models import MyUser, UserProfile, Vacancy, Response, Chat, Message
 
@@ -28,15 +31,26 @@ def profile_detail(request, user_id):
 
 #требует страницы и отладки
 @login_required
-def update_profile(request):
+def user_profile(request):
+    template_name = "profile/user_profile.html"
     if request.method == 'POST':
-        profile_form = ProfileUpdateForm(request.POST, instance=UserProfile.objects.get(user=request.user))
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+        
         if profile_form.is_valid():
             profile_form.save()
-        else:
-            profile_form = ProfileUpdateForm(instance=UserProfile.objects.get(user=request.user))
-    render(request, 'profile/setting.html', {'profile_form': profile_form})
+            mess.success(request, "Your profile is updated successfully")
+            return redirect(to=template_name)
 
+    else:
+        profile_form = ProfileUpdateForm(instance=request.user.id)
+    
+    return render(request, template_name, {'profile_form': profile_form})
+
+
+# class ChangePasswordViews(SuccessMessageMixin, PasswordChangeView):
+#     template_name = 'LavaroWeb/profile/change_password.html'
+#     success_message = "Successfully Changed Your Password"
+#     success_url = reverse_lazy('user-profile')
 
 #требует тестирования и отладки
 def do_response(request,vacancy_id):

@@ -13,6 +13,9 @@ urlpatterns = [
     path("Profile/<int:user_id>", views.profile_detail, name="profile_detail"), 
     path("Chats", views.chat, name="chats"),
     
+    #new profile for unique user
+    path('UserProfile', views.user_profile, name="user-profile"),
+    
     #new
     path('password-reset/', PasswordResetView.as_view(template_name='registration/password_reset.html'),name='password-reset'),
     path('password-reset/done/', PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),name='password_reset_done'),
