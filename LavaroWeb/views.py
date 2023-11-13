@@ -34,7 +34,7 @@ def profile_detail(request, user_id):
 def user_profile(request):
     template_name = "profile/user_profile.html"
     if request.method == 'POST':
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
         
         if profile_form.is_valid():
             profile_form.save()
@@ -42,7 +42,7 @@ def user_profile(request):
             return redirect(to=template_name)
 
     else:
-        profile_form = ProfileUpdateForm(instance=request.user.id)
+        profile_form = ProfileUpdateForm(instance=request.user.userprofile)
     
     return render(request, template_name, {'profile_form': profile_form})
 

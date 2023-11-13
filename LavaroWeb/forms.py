@@ -26,5 +26,5 @@ class ProfileUpdateForm(forms.ModelForm):
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
 
     class Meta:
-        models = UserProfile
+        model = UserProfile
         fields = ['name', 'age', 'expirience', 'image']
