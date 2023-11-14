@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import MyUser, UserProfile
+from .models import MyUser, UserProfile, Vacancy
 
 class LoginForm(forms.Form):
     username = forms.CharField()
@@ -28,3 +28,14 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['name', 'age', 'expirience', 'image']
+
+
+class CreateVacancy(forms.ModelForm):
+    title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    requirement = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    salary = forms.IntegerField()
+    additionalDate = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = Vacancy
+        fields = ['title', 'requirement', 'salary', 'additionalDate']

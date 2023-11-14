@@ -16,6 +16,9 @@ urlpatterns = [
     #new profile for unique user
     path('UserProfile', views.user_profile, name="user-profile"),
     
+    #new vacancy constructor
+    path("VacancyConstructor", views.vacancy_create, name="vacancy_create"),
+    
     #new
     path('password-reset/', PasswordResetView.as_view(template_name='registration/password_reset.html'),name='password-reset'),
     path('password-reset/done/', PasswordResetDoneView.as_view(template_name='registration/password_reset_done.html'),name='password_reset_done'),

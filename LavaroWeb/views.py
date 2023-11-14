@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpRespons
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView
-from .forms import CustomUserCreationForm, ProfileUpdateForm
+from .forms import CustomUserCreationForm, ProfileUpdateForm, CreateVacancy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages as mess
 from django.contrib.auth.views import PasswordChangeView
@@ -89,6 +89,21 @@ def vacancy_detail(request, vacancy_id):
     
     return render(request, template_name, {'vacancy': vacancy})
 
+@login_required
+def vacancy_create(request):
+    template_name = "vacancy/create_form.html"
+    if request.method == "POST":
+        vacancy_form = CreateVacancy(request.POST, instance=request.user.vacancy)
+        
+        if vacancy_form.is_valid():
+            Vacancy.objects.create(author=request.user, title=vacancy_form.title, requirement=vacancy_form.requirement, salary=vacancy_form.salary, additionalDate=vacancy_form.additionalDate)
+            mess.success(request, "Your vacansy is created successfully")
+            return redirect(to=template_name)
+    
+    else:
+        vacancy_form = CreateVacancy(instance=request.user.vacancy)
+    
+    return render(request, template_name, {'vacancy_form': vacancy_form})
 #login & signup
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
