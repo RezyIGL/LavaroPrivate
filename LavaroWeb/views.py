@@ -111,7 +111,7 @@ class Vacancy_detait_View(ListView):
             vacancy = Vacancy.objects.get(id=vacancy_id)
         except Vacancy.DoesNotExist:
             raise Http404("No Vacancy found.")
-        return render(request, self.template_name, {'vacancy': vacancy})
+        return render(request, self.template_name, context={self.context_object_name: vacancy})
 
 
 @login_required
@@ -152,11 +152,19 @@ def chat(request):
     return HttpResponse(request, template_name)
 
 
-@login_required
-def chats_list(request):
+# @login_required
+# def chats_list(request):
+#     template_name = "chat/chats_list.html"
+#     chats = request.user.chats.order_by("-last_modified")
+#     return render(request, template_name, {"chats": chats})
+# @login_required
+class Chat_list_View(ListView):
     template_name = "chat/chats_list.html"
-    chats = request.user.chats.order_by("-last_modified")
-    return render(request, template_name, {"chats": chats})
+    context_object_name = "chats"
+    
+    def get (self, request, *args, **kwargs):
+        chats = request.user.chats.order_by("-last_modified")
+        return render(request, template_name=self.template_name, context={self.context_object_name: chats})
 
 
 @login_required
