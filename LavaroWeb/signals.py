@@ -15,13 +15,13 @@ def save_profile(sender, instance, **kwargs):
     instance.userprofile.save()
 
 
-@receiver(post_save, sender=MyUser)
-def create_vacancy(sender, instance, created, **kwargs):
-    if created:
-        Vacancy.objects.create(user=instance)
+# @receiver(post_save, sender=MyUser)
+# def create_vacancy(sender, instance, created, **kwargs):
+#     if created:
+#         Vacancy.objects.create(user=instance)
 
 
-@receiver(post_save, sender=MyUser)
-def save_profile(sender, instance, **kwargs):
-    instance.vacancy.save()
+# @receiver(post_save, sender=MyUser)
+# def save_vacancy(sender, instance, **kwargs):
+#     instance.vacancy.save()
 

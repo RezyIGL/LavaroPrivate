@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'LavaroWeb.apps.LavarowebConfig',
     'bootstrap5',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

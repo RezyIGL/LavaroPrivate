@@ -1,12 +1,16 @@
 
+from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView
+from django.views.generic import ListView
+from django.template.response import SimpleTemplateResponse as STR
 from .forms import CustomUserCreationForm, ProfileUpdateForm, CreateVacancy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages as mess
+from rest_framework.generics import ListAPIView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -33,13 +37,18 @@ def profile_detail(request, user_id):
 @login_required
 def user_profile(request):
     template_name = "profile/user_profile.html"
+    
     if request.method == 'POST':
+        
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
         
         if profile_form.is_valid():
+            print("hello")
             profile_form.save()
             mess.success(request, "Your profile is updated successfully")
-            return redirect(to=template_name)
+            #return ('LavaroWeb:profile_detail' request.user.id)
+        else:
+            return profile_form.errors
 
     else:
         profile_form = ProfileUpdateForm(instance=request.user.userprofile)
@@ -65,29 +74,45 @@ def do_response(request,vacancy_id):
     return render(request, template_name, {"chats": chats})
 
 #Vacancy
-def vacancy_list(request):
-    template_name = "vacancy/list.html"
-    vacancy_list = Vacancy.objects.all()
-    paginator = Paginator(vacancy_list, 9)
-    page_number = request.GET.get('page', 1)
-    try:
-        plenty_vacancy = paginator.page(page_number)
-    except PageNotAnInteger:
-        plenty_vacancy = paginator.page(1)
-    except EmptyPage:
-        plenty_vacancy = paginator.page(paginator.num_pages)
 
-    return render(request, template_name, {'plenty_vacancy': plenty_vacancy})
-
-
-def vacancy_detail(request, vacancy_id):
-    template_name = "vacancy/detail.html"
-    try:
-        vacancy = Vacancy.objects.get(id=vacancy_id)
-    except Vacancy.DoesNotExist:
-        raise Http404("No Vacancy found.")
+class Vacancy_list_View(ListView):
     
-    return render(request, template_name, {'vacancy': vacancy})
+    queryset = Vacancy.objects.all()
+    template_name = 'vacancy/list.html'
+    context_object_name = 'plenty_vacancy'
+    
+    def get(self, request, *args, **kwargs):
+        paginator = Paginator(self.queryset, 9)
+        page_number = request.GET.get('page', 1)
+        try:
+            plenty_vacancy = paginator.page(page_number)
+        except PageNotAnInteger:
+            plenty_vacancy = paginator.page(1)
+        except EmptyPage:
+            plenty_vacancy = paginator.page(paginator.num_pages)
+
+        return STR(template=self.template_name, context={self.context_object_name: plenty_vacancy})
+
+
+# def vacancy_detail(request, vacancy_id):
+#     template_name = "vacancy/detail.html"
+#     try:
+#         vacancy = Vacancy.objects.get(id=vacancy_id)
+#     except Vacancy.DoesNotExist:
+#         raise Http404("No Vacancy found.")
+    
+#     return render(request, template_name, {'vacancy': vacancy})
+class Vacancy_detait_View(ListView):
+    template_name = "vacancy/detail.html"
+    context_object_name = "vacancy"
+    
+    def get(self, request, vacancy_id, *args, **kwargs):
+        try:
+            vacancy = Vacancy.objects.get(id=vacancy_id)
+        except Vacancy.DoesNotExist:
+            raise Http404("No Vacancy found.")
+        return render(request, self.template_name, {'vacancy': vacancy})
+
 
 @login_required
 def vacancy_create(request):
@@ -96,7 +121,7 @@ def vacancy_create(request):
         vacancy_form = CreateVacancy(request.POST, instance=request.user.vacancy)
         
         if vacancy_form.is_valid():
-            Vacancy.objects.create(author=request.user, title=vacancy_form.title, requirement=vacancy_form.requirement, salary=vacancy_form.salary, additionalDate=vacancy_form.additionalDate)
+            vacancy_form.save()
             mess.success(request, "Your vacansy is created successfully")
             return redirect(to=template_name)
     

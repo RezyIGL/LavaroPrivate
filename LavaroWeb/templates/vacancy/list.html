@@ -23,9 +23,12 @@
                 <li class="nav-item">
                     <a class="btn btn-outline-light" style="border:none; margin:10px" role="button" href="{% url 'LavaroWeb:chats_list' %}"> Чаты </a>
                 </li>
+                {% if user.id %}
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" style="border:none; margin:10px" role="button" href="{% url 'LavaroWeb:profile_detail' user.userprofile.id %}"> Профиль </a>
+                    <a class="btn btn-outline-light" style="border:none; margin:10px" role="button" href="{% url 'LavaroWeb:profile_detail' user.id %}"> Профиль </a>
                 </li>
+                {% else %}
+                {% endif %}
                 <li class="nav-item dropdown">
                     <span class="btn btn-outline-light" style="border:none; margin:10px" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Дополнительно </span>
                     <div class="dropdown-menu dropdown-menu-lg-right border-light" aria-labelledby="navbarDropdown" style="background-color: #0B2545; color:white">
