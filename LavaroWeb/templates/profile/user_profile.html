@@ -22,19 +22,22 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <a href="#">Change Password</a>
-                        <hr>
-                        <label class="small mb-1">Change Avatar:</label>
-                        {{ profile_form.image }}
+                        
+                        
                     </div>
                     
                     <div>
-                        <label class="small mb-1">Name:</label> {{ profile_form.name }}
+                        <label class="small mb-1">Name:</label> 
+                        <input type="text" max_length="150" autofocus="" required="" id="id_name" name="name" class="form-control mx-auto" placeholder="Имя пользователя" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
                     </div>
                     <div>
-                        <label class="small mb-1">Age:</label> {{ profile_form.age }}
+                        <label class="small mb-1">Age:</label> 
+                        <input type="text" max_length="150" autofocus="" required="" id="id_age" name="age" class="form-control mx-auto" placeholder="Годы" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
                     </div>
                     <div>
-                        <label class="small mb-1">Expirience:</label> {{ profile_form.expirience }}
+                        <label class="small mb-1">Expirience:</label> 
+                        <input type="text" max_length="150" autofocus="" required="" id="id_expirience" name="expirience" class="form-control mx-auto" placeholder="опыт" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+
                     </div>
                 </div>
             </div>

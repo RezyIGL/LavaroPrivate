@@ -28,12 +28,12 @@ class UserProfile(models.Model):
     def save(self, *args, **kwargs):
         super().save()
         
-        img = Image.open(self.image.path)
+        # img = Image.open(self.image.path)
         
-        if img.height > 300 or img.width > 300:
-            new_img = (300, 300)
-            img.thumbnail(new_img)
-            img.save(self.image.path)
+        # if img.height > 300 or img.width > 300:
+        #     new_img = (300, 300)
+        #     img.thumbnail(new_img)
+        #     img.save(self.image.path)
 
 class Vacancy(models.Model):
     author = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='vacancy')

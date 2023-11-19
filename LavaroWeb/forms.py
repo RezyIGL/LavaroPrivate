@@ -27,14 +27,14 @@ class ProfileUpdateForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ['name', 'age', 'expirience', 'image']
+        fields = ['name', 'age', 'expirience']
 
 
 class CreateVacancy(forms.ModelForm):
-    title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    requirement = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-    salary = forms.IntegerField()
-    additionalDate = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    # title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    # requirement = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    # salary = forms.IntegerField()
+    # additionalDate = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Vacancy
