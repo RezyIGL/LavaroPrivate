@@ -19,7 +19,7 @@ urlpatterns = [
     path('response/<int:vacancy_id>', views.Do_responce_View.as_view(), name='response'),
     
     #new vacancy constructor
-    path("VacancyConstructor", views.Vacancy_create_View.as_view(), name="vacancy_create"),
+    path("Vacancy/Constructor", views.Vacancy_create_View.as_view(), name="vacancy_create"),
     
     #new
     path('password-reset/', PasswordResetView.as_view(template_name='registration/password_reset.html'),name='password-reset'),

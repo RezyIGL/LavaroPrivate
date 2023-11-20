@@ -197,18 +197,23 @@ class Vacancy_create_View(ListView):
     context_object_name = "vacancy_form"
     
     def post(self, request, *args, **kwargs):
-        vacancy_form = CreateVacancy(request.POST, instance=request.user.vacancy)
+        vacancy_form = CreateVacancy(request.POST)
         
         if vacancy_form.is_valid():
-            vacancy = Vacancy.objects.create(author = request.user, requirement=vacancy_form.requirement, title = vacancy_form.title, salary=vacancy_form.salary, additionalDate=vacancy_form.additionalDate)
-            vacancy_form.save()
+            
+            vacancy = Vacancy.objects.create(author=request.user)
+            #vacancy.author=request.user.id
+            vacancy.title=request.POST['title']
+            vacancy.requirement=request.POST['requirement']
+            vacancy.salary=request.POST['salary']
+            vacancy.additionalDate = request.POST['additionalDate']
             vacancy.save()
-            return redirect('Vacancy')
+            return HttpResponseRedirect(reverse("LavaroWeb:vacancy_list"))
         else:
             return vacancy_form.errors
 
     def get(self, request, *args, **kwargs):
-        vacancy_form = CreateVacancy(instance=request.user.vacancy)
+        vacancy_form = CreateVacancy()
         
         return render(request, template_name=self.template_name, context={self.context_object_name: vacancy_form})
 
