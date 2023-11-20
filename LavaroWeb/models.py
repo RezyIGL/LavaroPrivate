@@ -70,6 +70,8 @@ class Chat(models.Model):
         ordering = ['-last_modified']
         indexes = [models.Index(fields=['-last_modified'])]
     
+    def get_participants(self):
+        return [p.username for p in self.participants.all()]
     
     def __str__(self):
         return f"Chat {self.id}: [{', '.join([p.username for p in self.participants.all()])}]"

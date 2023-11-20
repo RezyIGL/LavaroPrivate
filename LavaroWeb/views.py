@@ -108,19 +108,34 @@ class User_Profile_View(ListView):
 #     success_message = "Successfully Changed Your Password"
 #     success_url = reverse_lazy('user-profile')
 
-#требует тестирования и отладки
-def do_response(request,vacancy_id):
-    template_name = "chat/chats_list.html"
-    vacancy = Vacancy.objects.get(id=vacancy_id)
-    chats = Chat.objects.filter(participants__in = [request.user]) & Chat.objects.filter(participants__in=[vacancy.author])
-    if chats is not None:
-        print('chat hello')
-        chats = request.user.chats.order_by("-last_modified")
-        return render(request, template_name, {"chats": chats})
-    chat = Chat.objects.create(participants = [request.user, vacancy.author])
-    chat.save()
-    chats = request.user.chats.order_by("-last_modified")
-    return render(request, template_name, {"chats": chats})
+# #требует тестирования и отладки
+# def do_response(request,vacancy_id):
+#     vacancy = Vacancy.objects.get(id=vacancy_id)
+#     chats = Chat.objects.filter(participants__in = [vacancy.author]) & Chat.objects.filter(participants__in = [request.user])
+#     if chats:
+#         print('chat hello', chats, Chat.objects.filter(participants__in = [vacancy.author]))
+#         chats = request.user.chats.order_by("-last_modified")
+#         return HttpResponseRedirect(reverse("LavaroWeb:chats_list"))
+#     chat = Chat.objects.create()
+#     chat.participants.add(vacancy.author)
+#     chat.participants.add(request.user)
+#     chat.save()
+#     return  HttpResponseRedirect(reverse("LavaroWeb:chats_list"))
+class Do_responce_View(ListView):
+    
+    def get(self, request, vacancy_id, *args, **kwargs):
+        vacancy = Vacancy.objects.get(id=vacancy_id)
+        chats = Chat.objects.filter(participants__in = [vacancy.author]) & Chat.objects.filter(participants__in = [request.user])
+        if chats:
+            print('chat hello', chats, Chat.objects.filter(participants__in = [vacancy.author]))
+            chats = request.user.chats.order_by("-last_modified")
+            return HttpResponseRedirect(reverse("LavaroWeb:chats_list"))
+        chat = Chat.objects.create()
+        chat.participants.add(vacancy.author)
+        chat.participants.add(request.user)
+        chat.save()
+        return  HttpResponseRedirect(reverse("LavaroWeb:chats_list"))
+
 
 #Vacancy
 

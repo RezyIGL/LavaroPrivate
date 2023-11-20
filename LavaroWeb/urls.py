@@ -16,7 +16,7 @@ urlpatterns = [
     #new profile for unique user
     path('userProfile', views.User_Profile_View.as_view(), name="user-profile"),
     #нужна какая-то заглушка
-    #path('chats/list', views.do_response, name='response'),
+    path('response/<int:vacancy_id>', views.Do_responce_View.as_view(), name='response'),
     
     #new vacancy constructor
     path("VacancyConstructor", views.Vacancy_create_View.as_view(), name="vacancy_create"),
