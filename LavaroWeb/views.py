@@ -7,7 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 from django.template.response import SimpleTemplateResponse as STR
-from .forms import CustomUserCreationForm, ProfileUpdateForm, CreateVacancy
+from .forms import CustomUserCreationForm, ProfileUpdateForm, CreateVacancy, PasswordUpdate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages as mess
 from rest_framework.generics import ListAPIView
@@ -103,10 +103,25 @@ class User_Profile_View(ListView):
 
 
 #Нужно доделать
-# class ChangePasswordViews(SuccessMessageMixin, PasswordChangeView):
-#     template_name = 'LavaroWeb/profile/change_password.html'
-#     success_message = "Successfully Changed Your Password"
-#     success_url = reverse_lazy('user-profile')
+class Change_Password_Views(ListView):
+    template_name = 'profile/change_password.html'
+    context_object_name = 'password_form'
+    
+    def post(self, request, *args, **kwargs):
+        
+        if request.POST['password1'] == request.POST['password2']:
+            user = request.user.id
+            user.set_password(request.POST['password1'])
+            user.save()
+            #password_form.save()
+        
+        return HttpResponseRedirect(reverse("LavaroWeb:user-profile"))
+    
+    def get(self, request, *args, **kwargs):
+        password_form = PasswordUpdate(instance=request.user)
+        
+        return HttpResponseRedirect(reverse("LavaroWeb:user-profile"))
+
 
 # #требует тестирования и отладки
 # def do_response(request,vacancy_id):

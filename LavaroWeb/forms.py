@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.contrib.auth.models import User
 from .models import MyUser, UserProfile, Vacancy
 
 class LoginForm(forms.Form):
@@ -39,3 +40,12 @@ class CreateVacancy(forms.ModelForm):
     class Meta:
         model = Vacancy
         fields = ['title', 'requirement', 'salary', 'additionalDate']
+
+
+class PasswordUpdate(forms.Widget):
+    password1 = forms.PasswordInput()
+    password2 = forms.PasswordInput()
+    
+    class Meta:
+        model = MyUser
+        fields = ['password']
