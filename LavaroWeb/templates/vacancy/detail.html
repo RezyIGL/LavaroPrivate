@@ -65,7 +65,11 @@
         </div>
     </div>
     <div>
-        <a role='button' href="{% url 'LavaroWeb:response' vacancy.id %}">Click me</a>
+        {% if vacancy.author == user %}
+            <a role='button' href="{% url 'LavaroWeb:vacancy_delete' vacancy.id %}">Click me</a>
+        {% else %}
+        {% endif %}
+        <a role='button' href="{% url 'LavaroWeb:response' vacancy.id %}">Откликнуться</a>
         <a role="button" class="btn btn-outline-danger d-flex align-items-center justify-content-center" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:vacancy_list' %}"> На главную </a>
     </div>
 </body>

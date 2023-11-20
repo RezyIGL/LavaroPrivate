@@ -32,6 +32,7 @@ urlpatterns = [
     #добавить кнопку на странице конкретного чата для добавления участника в группу этого чата
     path("chats/<int:chat_id>/add", views.Add_participant_View.as_view(), name="add_participant"),
     
-    path("Vacancy/<int:vacancy_id>", views.Vacancy_detait_View.as_view(), name="vacancy_detail"), 
+    path("Vacancy/<int:vacancy_id>", views.Vacancy_detait_View.as_view(), name="vacancy_detail"),
+    path("Vacancy/<int:vacancy_id>/delete", views.Vacancy_delete_View.as_view(), name="vacancy_delete"), 
 ]
 

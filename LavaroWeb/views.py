@@ -217,6 +217,13 @@ class Vacancy_create_View(ListView):
         
         return render(request, template_name=self.template_name, context={self.context_object_name: vacancy_form})
 
+
+class Vacancy_delete_View(ListView):
+    
+    def get (self, request, vacancy_id, *args, **kwargs):
+        vacancy = Vacancy.objects.get(id = vacancy_id)
+        vacancy.delete()
+        return HttpResponseRedirect(reverse("LavaroWeb:vacancy_list"))
 #login & signup
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm
