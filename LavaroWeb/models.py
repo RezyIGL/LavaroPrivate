@@ -63,6 +63,7 @@ class Response(models.Model):
 
 
 class Chat(models.Model):
+    vacancy = models.ForeignKey(Vacancy, on_delete=models.CASCADE)
     participants = models.ManyToManyField(MyUser, related_name="chats")
     last_modified = models.DateTimeField(auto_now=True)
     

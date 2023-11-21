@@ -145,7 +145,7 @@ class Do_responce_View(ListView):
             print('chat hello', chats, Chat.objects.filter(participants__in = [vacancy.author]))
             chats = request.user.chats.order_by("-last_modified")
             return HttpResponseRedirect(reverse("LavaroWeb:chats_list"))
-        chat = Chat.objects.create()
+        chat = Chat.objects.create(vacancy=Vacancy.objects.get(id=vacancy_id))
         chat.participants.add(vacancy.author)
         chat.participants.add(request.user)
         chat.save()
@@ -342,6 +342,25 @@ class Add_participant_View(ListView):
         chat = get_object_or_404(Chat, id=chat_id)
         return render(request, template_name=self.template_name, context={self.context_object_name: chat})
 
+
+class Chat_leave_View(ListView):
+    
+    def get(self, request, chat_id, *args, **kwargs):
+        chat = Chat.objects.get(id = chat_id)
+        
+        chat.participants.remove(request.user)
+        chat.save()
+        
+        return HttpResponseRedirect(reverse("LavaroWeb:chats_list")) 
+
+
+class Chat_delete_View(ListView):
+    
+    def get(self, request, chat_id, *args, **kwargs):
+        chat = Chat.objects.get(id = chat_id)
+        chat.delete()
+        
+        return HttpResponseRedirect(reverse("LavaroWeb:chats_list")) 
 
 #page not found
 def page_not_found(request, exception):
