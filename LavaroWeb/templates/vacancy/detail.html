@@ -27,7 +27,7 @@
                 <li class="nav-item dropdown">
                     <span class="btn btn-outline-light" style="border:none; margin:10px" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Дополнительно </span>
                     <div class="dropdown-menu dropdown-menu-lg-right border-light" aria-labelledby="navbarDropdown" style="background-color: #0B2545; color:white">
-                        <a class="dropdown-item" style="color: white" href="#"> Настройки </a>
+                        <a class="dropdown-item" style="color: white" href="{% url 'LavaroWeb:user-profile' %}"> Настройки </a>
                         <div class="dropdown-divider" style="background-color:white; margin-left:10px; margin-right:10px"></div>
                         <a class="dropdown-item" style="color: #dc4535" href="{% url 'logout' %}"> Выйти </a>
                     </div>
@@ -45,7 +45,7 @@
 {% block content %}
 <body style="background-color:#F1FAEE">
     <div class="card" style="border-radius: 20px; margin:20px; font-family: Comfortaa">
-        <div class="card-header" style="background:none">
+        <div class="card-header d-flex justify-content-center" style="background:none">
             <span class="card-text h2"> {{ vacancy.title }} </span>
         </div>
         <div class="card-body">
@@ -58,20 +58,20 @@
                 {{ vacancy.additionalDate|linebreaks }}
             </div>
         </div>
-        <div class="card-footer mx-max d-flex justify-content-between" style="flex-direction: column; background: none">
-            <small class="text-muted"> Опубликовал - {{ vacancy.author }}.</small>
+        <div class="card-footer mx-max d-flex justify-content-around" style="background: none">
+            <small class="text-muted"> Автор - {{ vacancy.author }}.</small>
             <small class="text-muted"> Время - {{ vacancy.publish.time }}</small>
             <small class="text-muted"> Дата - {{ vacancy.publish.date }}.</small>
         </div>
-    </div>
-    <div>
-        {% if vacancy.author == user %}
-            <a role='button' href="{% url 'LavaroWeb:vacancy_delete' vacancy.id %}">Удалить вакансию</a>
-        {% else %}
-            <a role='button' href="{% url 'LavaroWeb:response' vacancy.id %}">Откликнуться</a>
-        {% endif %}
-        
-        <a role="button" class="btn btn-outline-danger d-flex align-items-center justify-content-center" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:vacancy_list' %}"> На главную </a>
+        <div class="d-flex justify-content-center">
+            {% if vacancy.author == user %}
+                <a role='button' class="btn btn-outline-danger" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:vacancy_delete' vacancy.id %}"> Удалить вакансию </a>
+            {% else %}
+                <a role='button' class="btn btn-outline-success" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:response' vacancy.id %}"> Откликнуться </a>
+            {% endif %}
+            
+            <a role="button" class="btn btn-outline-primary" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:vacancy_list' %}"> На главную </a>
+        </div>
     </div>
 </body>
 {% endblock %}

@@ -32,7 +32,7 @@
                 <li class="nav-item dropdown">
                     <span class="btn btn-outline-light" style="border:none; margin:10px" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Дополнительно </span>
                     <div class="dropdown-menu dropdown-menu-lg-right border-light" aria-labelledby="navbarDropdown" style="background-color: #0B2545; color:white">
-                        <a class="dropdown-item" style="color: white" href="#"> Настройки </a>
+                        <a class="dropdown-item" style="color: white" href="{% url 'LavaroWeb:user-profile' %}"> Настройки </a>
                         <div class="dropdown-divider" style="background-color:white; margin-left:10px; margin-right:10px"></div>
                         <a class="dropdown-item" style="color: #dc4535" href="{% url 'logout' %}"> Выйти </a>
                     </div>
@@ -53,19 +53,19 @@
     <div class="row row-cols-1 row-cols-md-3" style="font-family:Comfortaa; margin:10px">
         {% for vacancy in plenty_vacancy %}
             <div class="col mb-4">
-                <div class="card h-100" style="background-color:#134074; border-radius:20px">
+                <div class="card h-100" style="border-radius:20px">
                     <div class="card-header d-flex align-items-center justify-content-between" style="background: none; margin:10px">
-                        <p class="card-text h2" style="color:white"> {{ vacancy.title }} </p>
+                        <p class="card-text h2" style="color:black"> {{ vacancy.title }} </p>
                     </div>
-                    <div class="card-body d-flex justify-content-start" style="color:white; padding:10px; flex-direction: column;">
+                    <div class="card-body d-flex justify-content-start" style="color:black; padding:10px; flex-direction: column;">
                         <p class="card-text"> {{ vacancy.requirement|linebreaks }} </p>
                     </div>
-                    <div class="card-footer mx-max d-flex justify-content-between" style="flex-direction: column; background: none">
-                            <small class="text-muted"> Опубликовал - {{ vacancy.author }}.</small>
-                            <small class="text-muted"> Время - {{ vacancy.publish.time }}</small>
-                            <small class="text-muted"> Дата - {{ vacancy.publish.date }}.</small>
+                    <div class="card-footer mx-max d-flex justify-content-around" style="background: none">
+                        <small class="text-muted"> Автор - {{ vacancy.author }}.</small>
+                        <small class="text-muted"> Время - {{ vacancy.publish.time }}</small>
+                        <small class="text-muted"> Дата - {{ vacancy.publish.date }}.</small>
                     </div>
-                    <a role="button" class="btn btn-outline-light" href="{{vacancy.get_absolute_url}}" style="margin:20px; bottom:0px">
+                    <a role="button" class="btn btn-outline-primary d-flex justify-content-center" href="{{vacancy.get_absolute_url}}" style="margin:20px; bottom:0px">
                         Перейти
                     </a>
                 </div>

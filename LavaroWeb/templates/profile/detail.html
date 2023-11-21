@@ -31,7 +31,7 @@
                 <li class="nav-item dropdown">
                     <span class="btn btn-outline-light" style="border:none; margin:10px" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Дополнительно </span>
                     <div class="dropdown-menu dropdown-menu-lg-right border-light" aria-labelledby="navbarDropdown" style="background-color: #0B2545; color:white">
-                        <a class="dropdown-item" style="color: white" href="#"> Настройки </a>
+                        <a class="dropdown-item" style="color: white" href="{% url 'LavaroWeb:user-profile' %}"> Настройки </a>
                         <div class="dropdown-divider" style="background-color:white; margin-left:10px; margin-right:10px"></div>
                         <a class="dropdown-item" style="color: #dc4535" href="{% url 'logout' %}"> Выйти </a>
                     </div>
@@ -50,7 +50,7 @@
 {% block content %}
 <body style="background-color: #F1FAEE">
     <div class="card" style="border-radius: 20px; margin:20px; font-family: Comfortaa">
-        <div class="card-body d-flex justify-content-center:">
+        <div class="card-body d-flex justify-content-center">
             {% if profile.image %}
                 <img src="{{ profile.image.url }}" class="card-img" style="max-width: 300px; max-height: 300px; min-width: 300px; min-height: 300px; border-radius:20px" alt="..."/>
             {% else %}

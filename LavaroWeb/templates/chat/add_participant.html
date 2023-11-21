@@ -1,6 +1,6 @@
 {% block content %}
     <h2>Adding a participant to the chat</h2>
-    <p>Chat with participants: {{ chat.participants.all|join:", " }}</p>
+    <p> Участники чата: {{ chat.participants.all|join:", " }}</p>
     <form method="post">
         {% csrf_token %}
         <label for="username">Username:</label>
