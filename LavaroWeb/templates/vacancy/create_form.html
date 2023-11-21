@@ -1,0 +1,43 @@
+{% block title %}Vacancy constructor Page{% endblock title %}
+{% block content %}
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div>
+                        <label class="small mb-1">Title:</label>
+                        <input type="text" max_length="150" autofocus="" required="" id="id_title" name="title" class="form-control mx-auto" placeholder="Название" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+                    </div>
+                    <div>
+                        <label class="small mb-1">Requirement:</label>
+                        <input type="text" max_length="150" autofocus="" required="" id="id_requirement" name="requirement" class="form-control mx-auto" placeholder="Требования" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+                    </div>
+                    <div>
+                        <label class="small mb-1">Salary:</label>
+                        <input type="text" max_length="150" autofocus="" required="" id="id_salary" name="salary" class="form-control mx-auto" placeholder="Зарплата" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+                    </div>
+                    <div>
+                        <label class="small mb-1">AdditionalDate:</label>
+                        <input type="text" max_length="150" autofocus="" required="" id="id_additionalDate" name="additionalDate" class="form-control mx-auto" placeholder="Дополнительная информация" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Save Vacancy</button>
+            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+        </form>
+    </div>
+{% endblock content %}

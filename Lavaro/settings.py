@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'LavaroWeb.apps.LavarowebConfig',
     'bootstrap5',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -92,8 +93,8 @@ DATABASES = {
         'HOST': config('PGHOST'),
         'PORT': config('PGPORT'),
         },
-
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -141,3 +142,12 @@ LOGOUT_REDIRECT_URL = 'index'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = '/media/'
+
+#email settings
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_PORT = 25
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'LavaroWeb@gmail.com'
+EMAIL_HOST_PASSWORD = 'LavaroWeb12345'
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

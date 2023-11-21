@@ -1,0 +1,47 @@
+{% block title %}Profile Page{% endblock title %}
+{% block content %}
+    <div class="row my-3 p-3">
+        <img class="rounded-circle account-img" src="{{ user.profile.avatar.url }} " style="cursor: pointer;"/>
+    </div>
+    {% if user_form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <div id="form_errors">
+                {% for key, value in user_form.errors.items %}
+                    <strong>{{ value }}</strong>
+                {% endfor %}
+            </div>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %}
+    <div class="form-content">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <a role='button' href="{% url 'LavaroWeb:change_password' %}">Change Password</a>
+                    </div>
+                    
+                    <div>
+                        <label class="small mb-1">Name:</label> 
+                        <input type="text" max_length="150" autofocus="" required="" id="id_name" name="name" class="form-control mx-auto" placeholder="Имя пользователя" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+                    </div>
+                    <div>
+                        <label class="small mb-1">Age:</label> 
+                        <input type="text" max_length="150" autofocus="" required="" id="id_age" name="age" class="form-control mx-auto" placeholder="Годы" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+                    </div>
+                    <div>
+                        <label class="small mb-1">Expirience:</label> 
+                        <input type="text" max_length="150" autofocus="" required="" id="id_expirience" name="expirience" class="form-control mx-auto" placeholder="опыт" style="padding:10px; background-color:#134074; color:white; border: none; border-radius:20px"> <br>
+
+                    </div>
+                </div>
+            </div>
+            <br><br>
+            <button type="submit" class="btn btn-dark btn-lg">Save Changes</button>
+            <button type="reset" class="btn btn-dark btn-lg">Reset</button>
+        </form>
+    </div>
+{% endblock content %}
