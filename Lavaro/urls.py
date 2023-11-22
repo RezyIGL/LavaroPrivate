@@ -27,6 +27,7 @@ urlpatterns = [
     path('', RedirectView.as_view(url="login"), name='index'),
     path('/', include("LavaroWeb.urls")),
     path('', include('django.contrib.auth.urls')),
+    path("accounts/login/", RedirectView.as_view(url="/login"), name="index2"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

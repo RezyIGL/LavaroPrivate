@@ -25,3 +25,4 @@ def create_vacancy(sender, instance, created, **kwargs):
 def save_vacancy(sender, instance, **kwargs):
     instance.vacancy.save()
 
+

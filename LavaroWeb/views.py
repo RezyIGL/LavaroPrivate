@@ -80,9 +80,7 @@ class User_Profile_View(ListView):
         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
         
         if profile_form.is_valid():
-            profile = UserProfile.objects.get(id=request.user.id)
-            print("hello")
-            #username = request.POST['username']
+            profile = request.user.userprofile
             profile.name = request.POST['name']
             profile.age = request.POST['age']
             profile.expirience = request.POST['expirience']
@@ -96,7 +94,6 @@ class User_Profile_View(ListView):
         return render(request, template_name=self.template_name, context={self.context_object_name: profile_form})
     
     def get(self, request, *args, **kwargs):
-        profile = UserProfile.objects.get(id=request.user.id)
         profile_form = ProfileUpdateForm(instance=request.user.userprofile)
         
         return render(request, template_name=self.template_name, context={self.context_object_name:profile_form})
@@ -110,17 +107,17 @@ class Change_Password_Views(ListView):
     def post(self, request, *args, **kwargs):
         
         if request.POST['password1'] == request.POST['password2']:
-            user = request.user.id
+            user = request.user
             user.set_password(request.POST['password1'])
             user.save()
             #password_form.save()
         
-        return HttpResponseRedirect(reverse("LavaroWeb:user-profile"))
+        return redirect(to="/")
     
     def get(self, request, *args, **kwargs):
-        password_form = PasswordUpdate(instance=request.user)
+        password_form = PasswordUpdate()
         
-        return HttpResponseRedirect(reverse("LavaroWeb:user-profile"))
+        return render(request, self.template_name, context={self.context_object_name: password_form})
 
 
 # #требует тестирования и отладки

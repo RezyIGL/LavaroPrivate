@@ -42,10 +42,7 @@ class CreateVacancy(forms.ModelForm):
         fields = ['title', 'requirement', 'salary', 'additionalDate']
 
 
-class PasswordUpdate(forms.Widget):
+class PasswordUpdate(forms.Form):
     password1 = forms.PasswordInput()
     password2 = forms.PasswordInput()
     
-    class Meta:
-        model = MyUser
-        fields = ['password']
