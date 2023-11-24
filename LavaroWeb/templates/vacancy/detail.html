@@ -66,6 +66,7 @@
         <div class="d-flex justify-content-center">
             {% if vacancy.author == user %}
                 <a role='button' class="btn btn-outline-danger" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:vacancy_delete' vacancy.id %}"> Удалить вакансию </a>
+                <a role='button' class="btn btn-outline-danger" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:vacancy_reduction' vacancy.id %}"> Редактировать вакансию </a>
             {% else %}
                 <a role='button' class="btn btn-outline-success" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:response' vacancy.id %}"> Откликнуться </a>
             {% endif %}

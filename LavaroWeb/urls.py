@@ -36,6 +36,7 @@ urlpatterns = [
     path("chats/<int:chat_id>/leave", views.Chat_leave_View.as_view(), name="chat_leave"),
     
     path("Vacancy/<int:vacancy_id>", views.Vacancy_detait_View.as_view(), name="vacancy_detail"),
-    path("Vacancy/<int:vacancy_id>/delete", views.Vacancy_delete_View.as_view(), name="vacancy_delete"), 
+    path("Vacancy/<int:vacancy_id>/delete", views.Vacancy_delete_View.as_view(), name="vacancy_delete"),
+    path("Vacancy/<int:vacancy_id>/reduction", views.Vacancy_reduction_View.as_view(), name="vacancy_reduction"),
 ]
 
