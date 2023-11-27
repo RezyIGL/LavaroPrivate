@@ -11,6 +11,7 @@ postgres = "*"
 django-revproxy = "*"
 python-decouple = "*"
 djangorestframework = "*"
+decouple = "*"
 
 [dev-packages]
 
