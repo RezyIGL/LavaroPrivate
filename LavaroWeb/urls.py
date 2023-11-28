@@ -1,13 +1,16 @@
-from django.urls import path, include
+from django.urls import path, include, re_path
 from . import views
 from .views import SignUpView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from rest_framework.urlpatterns import format_suffix_patterns
 
+
 app_name = "LavaroWeb"
 
-urlpatterns = [
+
+
+urlpatterns = [    
     path('login/', TemplateView.as_view(template_name='registration/login.html'), name='home'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path("Vacancy", views.Vacancy_list_View.as_view(), name="vacancy_list"),

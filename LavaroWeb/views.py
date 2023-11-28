@@ -21,6 +21,13 @@ from rest_framework.views import APIView
 from rest_framework import generics, mixins, viewsets
 from rest_framework.response import Response
 
+#swagger 
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.decorators import api_view
+
+from drf_yasg import openapi
+
 from . import serializers
 
 from .models import MyUser, UserProfile, Vacancy, Chat, Message
@@ -54,11 +61,14 @@ class ProfileDetail(mixins.RetrieveModelMixin,
     queryset = UserProfile.objects.all()
     serializer_class = serializers.UserProfileSerializer
     
+    @swagger_auto_schema(responses={200:serializers.UserProfileSerializer()})
     def get(self, request, pk, *args, **kwargs):
         profile = get_object_or_404(self.queryset, id=pk)
         serializer = serializers.UserProfileSerializer(profile)
         return Response(serializer.data)
     
+    
+    @swagger_auto_schema(operation_description='PUT /profile/{id}/')
     def put(self, request, pk, *args, **kwargs):
         profile = get_object_or_404(self.queryset, id=pk)
         serializer = serializers.UserProfileSerializer(data=request.data)
@@ -175,11 +185,13 @@ class VacancyDetail(RetrieveUpdateDestroyAPIView):
     queryset = Vacancy.objects.all()
     serializer_class = serializers.VacancySerializer
 
+    @swagger_auto_schema(responses={200: serializers.VacancySerializer()})
     def get(self, request, pk, format=None):
         vacancy = get_object_or_404(self.queryset, id=pk)
         serializer = serializers.VacancySerializer(vacancy)
         return Response(serializer.data)
     
+    @swagger_auto_schema(operation_description='PUT /vacancy/{id}/')
     def put (self, request, pk, format=None, *args, **kwargs):
         vacancy = get_object_or_404(self.queryset, id=pk)
         serializer = serializers.VacancySerializer(vacancy, data=request.data)
@@ -189,6 +201,7 @@ class VacancyDetail(RetrieveUpdateDestroyAPIView):
             return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+    @swagger_auto_schema(operation_description='DELETE /vacancy/{id}')
     def delete (self, request, pk, format=None, *args, **kwargs):
         vacancy = get_object_or_404(self.queryset, id=pk)
         vacancy.delete()
@@ -311,11 +324,13 @@ class ChatDetail(APIView):
     queryset = Message.objects.all()
     serializer_class = serializers.Messageserializer
 
+    @swagger_auto_schema(responses={200: serializers.Messageserializer()})
     def get(self, request, pk, *args, **kwargs):
         messages = self.queryset.filter(chat=pk)
         serializer = serializers.Messageserializer(messages, many=True)
         return Response(serializer.data)
-    
+
+    @swagger_auto_schema(operation_description='POST /chat/{id}')
     def post(self, request, pk, format=None, *args, **kwargs):
         serializer = serializers.Messageserializer(data=request.data)
         if serializer.is_valid():
