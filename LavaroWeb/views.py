@@ -55,7 +55,7 @@ class ProfileDetail(mixins.RetrieveModelMixin,
     serializer_class = serializers.UserProfileSerializer
     
     def get(self, request, pk, *args, **kwargs):
-        profile = UserProfile.objects.get(id=pk)
+        profile = get_object_or_404(self.queryset, id=pk)
         serializer = serializers.UserProfileSerializer(profile)
         return Response(serializer.data)
     
