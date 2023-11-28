@@ -31,6 +31,12 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['name', 'age', 'expirience']
 
 
+class ChangeVacancyForm(forms.ModelForm):
+    
+    class Meta:
+        model = Vacancy
+        fields = ['title', 'requirement', 'salary', 'additionalDate']
+
 class CreateVacancy(forms.ModelForm):
     # title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     # requirement = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))

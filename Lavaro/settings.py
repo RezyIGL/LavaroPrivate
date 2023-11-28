@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'LavaroWeb.apps.LavarowebConfig',
     'bootstrap5',
     'rest_framework',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [

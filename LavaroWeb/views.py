@@ -1,27 +1,39 @@
 
 from typing import Any
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpRequest, HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
+from django.http import HttpRequest, HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect, JsonResponse
 from django.urls import reverse_lazy, reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.generic.edit import CreateView
 from django.views.generic import ListView
 from django.template.response import SimpleTemplateResponse as STR
-from .forms import CustomUserCreationForm, ProfileUpdateForm, CreateVacancy, PasswordUpdate
+from .forms import CustomUserCreationForm, ProfileUpdateForm, CreateVacancy, PasswordUpdate, ChangeVacancyForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages as mess
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, RetrieveUpdateDestroyAPIView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 
-from .models import MyUser, UserProfile, Vacancy, Response, Chat, Message
+#rest
+from rest_framework.parsers import JSONParser
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework import generics, mixins, viewsets
+from rest_framework.response import Response
+
+#swagger 
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework.decorators import api_view
+
+from drf_yasg import openapi
+
+from . import serializers
+
+from .models import MyUser, UserProfile, Vacancy, Chat, Message
 
 
 #home page
-# def home(request):
-#     template_name = "registration/login.html"
-
-#     return render(request, template_name)
 class Home_View(ListView):
     template_name = "registration/login.html"
     
@@ -30,48 +42,42 @@ class Home_View(ListView):
 
 
 #profile & response
-# def profile_detail(request, user_id):
+# class Profile_detail_View(ListView):
 #     template_name = "profile/detail.html"
-#     try:
-#         profile = UserProfile.objects.get(id=user_id)
-#     except UserProfile.DoesNotExist:
-#         raise Http404("No Profile found.")
-
-#     return render(request, template_name, {'profile': profile})
-class Profile_detail_View(ListView):
-    template_name = "profile/detail.html"
-    context_object_name = "profile"
+#     context_object_name = "profile"
     
-    def get(self, request, user_id, *args, **kwargs):
-        try:
-            profile = UserProfile.objects.get(id=user_id)
-        except UserProfile.DoesNotExist:
-            raise Http404("No Profile found.")
+#     def get(self, request, user_id, *args, **kwargs):
+#         try:
+#             profile = UserProfile.objects.get(id=user_id)
+#         except UserProfile.DoesNotExist:
+#             raise Http404("No Profile found.")
 
-        return render(request, template_name=self.template_name, context={self.context_object_name: profile})
+#         return render(request, template_name=self.template_name, context={self.context_object_name: profile})
 
+#важное
+class ProfileDetail(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    generics.GenericAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = serializers.UserProfileSerializer
+    
+    @swagger_auto_schema(responses={200:serializers.UserProfileSerializer()})
+    def get(self, request, pk, *args, **kwargs):
+        profile = get_object_or_404(self.queryset, id=pk)
+        serializer = serializers.UserProfileSerializer(profile)
+        return Response(serializer.data)
+    
+    
+    @swagger_auto_schema(operation_description='PUT /profile/{id}/')
+    def put(self, request, pk, *args, **kwargs):
+        profile = get_object_or_404(self.queryset, id=pk)
+        serializer = serializers.UserProfileSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #требует страницы и отладки
-# @login_required
-# def user_profile(request):
-#     template_name = "profile/user_profile.html"
-    
-#     if request.method == 'POST':
-        
-#         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
-
-#         if profile_form.is_valid():
-#             print("hello")
-#             profile_form.save()
-#             mess.success(request, "Your profile is updated successfully")
-#             #return ('LavaroWeb:profile_detail' request.user.id)
-#         else:
-#             return profile_form.errors
-
-#     else:
-#         profile_form = ProfileUpdateForm(instance=request.user.userprofile)
-    
-#     return render(request, template_name, {'profile_form': profile_form})
 class User_Profile_View(ListView):
     template_name = "profile/user_profile.html"
     context_object_name = "profile_form"
@@ -120,19 +126,6 @@ class Change_Password_Views(ListView):
         return render(request, self.template_name, context={self.context_object_name: password_form})
 
 
-# #требует тестирования и отладки
-# def do_response(request,vacancy_id):
-#     vacancy = Vacancy.objects.get(id=vacancy_id)
-#     chats = Chat.objects.filter(participants__in = [vacancy.author]) & Chat.objects.filter(participants__in = [request.user])
-#     if chats:
-#         print('chat hello', chats, Chat.objects.filter(participants__in = [vacancy.author]))
-#         chats = request.user.chats.order_by("-last_modified")
-#         return HttpResponseRedirect(reverse("LavaroWeb:chats_list"))
-#     chat = Chat.objects.create()
-#     chat.participants.add(vacancy.author)
-#     chat.participants.add(request.user)
-#     chat.save()
-#     return  HttpResponseRedirect(reverse("LavaroWeb:chats_list"))
 class Do_responce_View(ListView):
     
     def get(self, request, vacancy_id, *args, **kwargs):
@@ -168,42 +161,53 @@ class Vacancy_list_View(ListView):
             plenty_vacancy = paginator.page(paginator.num_pages)
 
         return render (request, template_name=self.template_name, context={self.context_object_name: plenty_vacancy})
+# class VacancyList(ListAPIView):
+#     queryset = Vacancy.objects.all()
+#     serializer_class = serializers.VacancySerializer
+
+#     def perform_create(self, serializer):
+#         serializer.save(author=self.request.user)
 
 
-# def vacancy_detail(request, vacancy_id):
+# class Vacancy_detait_View(ListView):
 #     template_name = "vacancy/detail.html"
-#     try:
-#         vacancy = Vacancy.objects.get(id=vacancy_id)
-#     except Vacancy.DoesNotExist:
-#         raise Http404("No Vacancy found.")
+#     context_object_name = "vacancy"
     
-#     return render(request, template_name, {'vacancy': vacancy})
-class Vacancy_detait_View(ListView):
-    template_name = "vacancy/detail.html"
-    context_object_name = "vacancy"
+#     def get(self, request, vacancy_id, *args, **kwargs):
+#         try:
+#             vacancy = Vacancy.objects.get(id=vacancy_id)
+#         except Vacancy.DoesNotExist:
+#             raise Http404("No Vacancy found.")
+#         return render(request, self.template_name, context={self.context_object_name: vacancy})
+
+#важное
+class VacancyDetail(RetrieveUpdateDestroyAPIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = serializers.VacancySerializer
+
+    @swagger_auto_schema(responses={200: serializers.VacancySerializer()})
+    def get(self, request, pk, format=None):
+        vacancy = get_object_or_404(self.queryset, id=pk)
+        serializer = serializers.VacancySerializer(vacancy)
+        return Response(serializer.data)
     
-    def get(self, request, vacancy_id, *args, **kwargs):
-        try:
-            vacancy = Vacancy.objects.get(id=vacancy_id)
-        except Vacancy.DoesNotExist:
-            raise Http404("No Vacancy found.")
-        return render(request, self.template_name, context={self.context_object_name: vacancy})
+    @swagger_auto_schema(operation_description='PUT /vacancy/{id}/')
+    def put (self, request, pk, format=None, *args, **kwargs):
+        vacancy = get_object_or_404(self.queryset, id=pk)
+        serializer = serializers.VacancySerializer(vacancy, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            self.update(request, *args, **kwargs)
+            return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    @swagger_auto_schema(operation_description='DELETE /vacancy/{id}')
+    def delete (self, request, pk, format=None, *args, **kwargs):
+        vacancy = get_object_or_404(self.queryset, id=pk)
+        vacancy.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-# @login_required
-# def vacancy_create(request):
-#     template_name = "vacancy/create_form.html"
-#     if request.method == "POST":
-#         vacancy_form = CreateVacancy(request.POST, instance=request.user.vacancy)
-        
-#         if vacancy_form.is_valid():
-#             vacancy_form.save()
-#             return redirect(to=template_name)
-    
-#     else:
-#         vacancy_form = CreateVacancy(instance=request.user.vacancy)
-    
-#     return render(request, template_name, {'vacancy_form': vacancy_form})
 class Vacancy_create_View(ListView):
     template_name = "vacancy/create_form.html"
     context_object_name = "vacancy_form"
@@ -228,6 +232,32 @@ class Vacancy_create_View(ListView):
         vacancy_form = CreateVacancy()
         
         return render(request, template_name=self.template_name, context={self.context_object_name: vacancy_form})
+
+
+class Vacancy_reduction_View(ListView):
+    template_name = 'vacancy/reduction.html'
+    context_object_name = 'vacancy_form'
+    
+    def post(self, request, *args, **kwargs):
+        vacancy_form = ChangeVacancyForm(request.POST)
+        
+        if vacancy_form.is_valid():
+            
+            vacancy = Vacancy.objects.get(author=request.user)
+            vacancy.title=request.POST['title']
+            vacancy.requirement=request.POST['requirement']
+            vacancy.salary=request.POST['salary']
+            vacancy.additionalDate = request.POST['additionalDate']
+            vacancy.save()
+            return HttpResponseRedirect(reverse("LavaroWeb:vacancy_detail", args=[vacancy.id]))
+        else:
+            return vacancy_form.errors
+    
+    def get(self, request, *args, **kwargs):
+        vacancy_form = ChangeVacancyForm()
+        
+        return render(request, template_name=self.template_name, context={self.context_object_name: vacancy_form})
+
 
 
 class Vacancy_delete_View(ListView):
@@ -259,12 +289,6 @@ def chat(request):
     return HttpResponse(request, template_name)
 
 
-# @login_required
-# def chats_list(request):
-#     template_name = "chat/chats_list.html"
-#     chats = request.user.chats.order_by("-last_modified")
-#     return render(request, template_name, {"chats": chats})
-# # @login_required
 class Chat_list_View(ListView):
     template_name = "chat/chats_list.html"
     context_object_name = "chats"
@@ -278,46 +302,43 @@ class Chat_list_View(ListView):
         return render(request, template_name=self.template_name, context={self.context_object_name: chats})
 
 
-# @login_required
-# def chat_detail(request, chat_id):
+# class Chat_detail_View(ListView):
 #     template_name = "chat/chat_detail.html"
-#     chat = get_object_or_404(Chat, id=chat_id)
-#     messages = chat.message.all().order_by("timestamp")
-#     if request.method == "POST":
+#     context_object_name = ("chat", "messages")
+
+#     def post(self, request, chat_id, *args, **kwargs):
+#         chat = get_object_or_404(Chat, id=chat_id)
 #         text = request.POST.get("text")
+#         messages = chat.message.all().order_by("timestamp")
+
 #         message = Message.objects.create(sender=request.user, chat=chat, text=text)
 #         return HttpResponseRedirect(reverse("LavaroWeb:chat_detail", args=[chat_id]))
-#     return render(request, template_name, {"chat": chat, "messages": messages})
-class Chat_detail_View(ListView):
-    template_name = "chat/chat_detail.html"
-    context_object_name = ("chat", "messages")
 
-    def post(self, request, chat_id, *args, **kwargs):
-        chat = get_object_or_404(Chat, id=chat_id)
-        text = request.POST.get("text")
-        messages = chat.message.all().order_by("timestamp")
+#     def get(self, request, chat_id, *args, **kwargs):
+#         chat = get_object_or_404(Chat, id=chat_id)
+#         messages = chat.message.all().order_by("timestamp")
+#         return render(request, template_name=self.template_name, context={self.context_object_name[0]: chat, self.context_object_name[1]: messages})
 
-        message = Message.objects.create(sender=request.user, chat=chat, text=text)
-        return HttpResponseRedirect(reverse("LavaroWeb:chat_detail", args=[chat_id]))
+#важное
+class ChatDetail(APIView):
+    queryset = Message.objects.all()
+    serializer_class = serializers.Messageserializer
 
-    def get(self, request, chat_id, *args, **kwargs):
-        chat = get_object_or_404(Chat, id=chat_id)
-        messages = chat.message.all().order_by("timestamp")
-        return render(request, template_name=self.template_name, context={self.context_object_name[0]: chat, self.context_object_name[1]: messages})
+    @swagger_auto_schema(responses={200: serializers.Messageserializer()})
+    def get(self, request, pk, *args, **kwargs):
+        messages = self.queryset.filter(chat=pk)
+        serializer = serializers.Messageserializer(messages, many=True)
+        return Response(serializer.data)
+
+    @swagger_auto_schema(operation_description='POST /chat/{id}')
+    def post(self, request, pk, format=None, *args, **kwargs):
+        serializer = serializers.Messageserializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-# @login_required
-# def add_participant(request, chat_id):
-#     chat = get_object_or_404(Chat, chat_id)
-#     template_name = "chat/add_participant.html"
-#     if request.method == "POST":
-#         username = request.POST.get("username")
-#         user = MyUser.objects.filter(username=username).first()
-#         if user:
-#             chat.participants.add(user)
-#             return HttpResponseRedirect(reverse("LavaroWeb:chat_detail", arg=[chat.id]))
-#         return render(request, template_name, {"chat": chat})
 class Add_participant_View(ListView):
     template_name = "chat/add_participant.html"
     context_object_name = "chat"
