@@ -309,7 +309,7 @@ class Chat_list_View(ListView):
 #важное
 class ChatDetail(APIView):
     queryset = Message.objects.all()
-    serializer_class = serializers.VacancySerializer
+    serializer_class = serializers.Messageserializer
 
     def get(self, request, pk, *args, **kwargs):
         messages = self.queryset.filter(chat=pk)
