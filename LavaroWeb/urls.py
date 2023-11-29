@@ -37,7 +37,7 @@ urlpatterns = [
     path('password-reset-complete/',PasswordResetCompleteView.as_view(template_name='registration/password_reset_complete.html'),name='password_reset_complete'),
     
     path("chats/", views.Chat_list_View.as_view(), name="chats_list"),
-    path("chats/<int:pk>", views.ChatDetail.as_view(), name="chat_detail"),
+    path("chat/<int:pk>", views.MessageListForChat.as_view(), name="chat_detail"),
     #добавить кнопку на странице конкретного чата для добавления участника в группу этого чата
     path("chats/<int:chat_id>/add", views.Add_participant_View.as_view(), name="add_participant"),
     path("chats/<int:chat_id>/delete", views.Chat_delete_View.as_view(), name="chat_delete"),

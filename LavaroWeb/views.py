@@ -55,6 +55,16 @@ class Home_View(ListView):
 #         return render(request, template_name=self.template_name, context={self.context_object_name: profile})
 
 #важное
+class ProfileList(APIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = serializers.UserProfileSerializer
+    
+    @swagger_auto_schema(responses={200: serializers.UserProfileSerializer(many=True)})
+    def get(self, request, *args, **kwargs):
+        serializer = serializers.UserProfileSerializer(self.queryset, many=True)
+        return Response(serializer.data)
+
+
 class ProfileDetail(mixins.RetrieveModelMixin,
                     mixins.UpdateModelMixin,
                     generics.GenericAPIView):
@@ -62,20 +72,23 @@ class ProfileDetail(mixins.RetrieveModelMixin,
     serializer_class = serializers.UserProfileSerializer
     
     @swagger_auto_schema(responses={200:serializers.UserProfileSerializer()})
-    def get(self, request, pk, *args, **kwargs):
-        profile = get_object_or_404(self.queryset, id=pk)
+    def get(self, request, *args, **kwargs):
+        profile = get_object_or_404(self.queryset, id=kwargs['pk'])
         serializer = serializers.UserProfileSerializer(profile)
         return Response(serializer.data)
     
     
-    @swagger_auto_schema(operation_description='PUT /profile/{id}/')
-    def put(self, request, pk, *args, **kwargs):
-        profile = get_object_or_404(self.queryset, id=pk)
-        serializer = serializers.UserProfileSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(operation_description='PUT /profile/{id}/', 
+                        request_body=serializers.PartitialUpdateUserProfileSerializer(),
+                        responses={200: serializers.UserProfileSerializer()})
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+    
+    @swagger_auto_schema(operation_description='', 
+                        request_body=serializers.PartitialUpdateUserProfileSerializer(),
+                        responses={200: serializers.UserProfileSerializer()})
+    def patch (self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs | {'partial': True})
 
 #требует страницы и отладки
 class User_Profile_View(ListView):
@@ -181,6 +194,22 @@ class Vacancy_list_View(ListView):
 #         return render(request, self.template_name, context={self.context_object_name: vacancy})
 
 #важное
+class VacancyList(APIView):
+    queryset = Vacancy.objects.all()
+    serializer_class = serializers.VacancySerializer
+    
+    def get(self, request, *args, **kwargs):
+        serializer = serializers.VacancySerializer(self.queryset, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request, *args, **kwargs):
+        serializer = serializers.VacancySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class VacancyDetail(RetrieveUpdateDestroyAPIView):
     queryset = Vacancy.objects.all()
     serializer_class = serializers.VacancySerializer
@@ -199,8 +228,8 @@ class VacancyDetail(RetrieveUpdateDestroyAPIView):
         return self.update(request, *args, **kwargs)
         
     @swagger_auto_schema(operation_description='',
-                         request_body=serializers.PartialUpdateVacancySerializer(),
-                         responses={200: serializers.VacancySerializer()})
+                        request_body=serializers.PartialUpdateVacancySerializer(),
+                        responses={200: serializers.VacancySerializer()})
     def patch(self, request, *args, **kwargs):
         return self.update(request, *args, **kwargs | {"partial": True})
     
@@ -324,20 +353,22 @@ class Chat_list_View(ListView):
 #         return render(request, template_name=self.template_name, context={self.context_object_name[0]: chat, self.context_object_name[1]: messages})
 
 #важное
-class ChatDetail(APIView):
+class MessageListForChat(APIView):
     queryset = Message.objects.all()
     serializer_class = serializers.Messageserializer
 
-    @swagger_auto_schema(responses={200: serializers.Messageserializer()})
-    def get(self, request, pk, *args, **kwargs):
+    @swagger_auto_schema(responses={200: serializers.Messageserializer(many=True)})
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
         messages = self.queryset.filter(chat=pk)
         serializer = serializers.Messageserializer(messages, many=True)
         return Response(serializer.data)
 
     @swagger_auto_schema(operation_description='POST /chat/{id}')
-    def post(self, request, pk, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         serializer = serializers.Messageserializer(data=request.data)
         if serializer.is_valid():
+            serializer.create(validated_data=request.data)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
