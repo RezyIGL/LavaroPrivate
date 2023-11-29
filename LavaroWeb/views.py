@@ -186,23 +186,27 @@ class VacancyDetail(RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.VacancySerializer
 
     @swagger_auto_schema(responses={200: serializers.VacancySerializer()})
-    def get(self, request, pk, format=None):
+    def get(self, request, *args, **kwargs):
+        pk = kwargs["pk"]
         vacancy = get_object_or_404(self.queryset, id=pk)
         serializer = serializers.VacancySerializer(vacancy)
         return Response(serializer.data)
     
-    @swagger_auto_schema(operation_description='PUT /vacancy/{id}/')
-    def put (self, request, pk, format=None, *args, **kwargs):
-        vacancy = get_object_or_404(self.queryset, id=pk)
-        serializer = serializers.VacancySerializer(vacancy, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            self.update(request, *args, **kwargs)
-            return Response(serializer.data, status=status.HTTP_205_RESET_CONTENT)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    @swagger_auto_schema(operation_description='PUT /vacancy/{id}/',
+                         request_body=serializers.PartialUpdateVacancySerializer(),
+                         responses={200: serializers.VacancySerializer()})
+    def put (self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+        
+    @swagger_auto_schema(operation_description='',
+                         request_body=serializers.PartialUpdateVacancySerializer(),
+                         responses={200: serializers.VacancySerializer()})
+    def patch(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs | {"partial": True})
     
     @swagger_auto_schema(operation_description='DELETE /vacancy/{id}')
-    def delete (self, request, pk, format=None, *args, **kwargs):
+    def delete (self, request, *args, **kwargs):
+        pk = kwargs["pk"]
         vacancy = get_object_or_404(self.queryset, id=pk)
         vacancy.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -331,7 +335,7 @@ class ChatDetail(APIView):
         return Response(serializer.data)
 
     @swagger_auto_schema(operation_description='POST /chat/{id}')
-    def post(self, request, pk, format=None, *args, **kwargs):
+    def post(self, request, pk, *args, **kwargs):
         serializer = serializers.Messageserializer(data=request.data)
         if serializer.is_valid():
             serializer.save()

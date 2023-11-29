@@ -38,6 +38,17 @@ class VacancySerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return Vacancy.objects.create(**validated_data)
 
+class PartialUpdateVacancySerializer(serializers.ModelSerializer):
+    requirement = serializers.CharField(required=False)
+    title = serializers.CharField(required=False)
+    salary = serializers.FloatField(required=False)
+    additionalDate = serializers.CharField(required=False)
+    
+    
+    class Meta:
+        model = Vacancy
+        fields = ["requirement", "title", "salary", "additionalDate"]
+
 
 class Messageserializer(serializers.ModelSerializer):
     

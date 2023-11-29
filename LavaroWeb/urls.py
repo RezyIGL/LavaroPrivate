@@ -4,13 +4,17 @@ from .views import SignUpView
 from django.views.generic.base import TemplateView
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
 from rest_framework.urlpatterns import format_suffix_patterns
+from django.views.generic.base import RedirectView
+
 
 
 app_name = "LavaroWeb"
 
 
 
-urlpatterns = [    
+urlpatterns = [   
+    path('', RedirectView.as_view(url="home"), name='index'),
+    
     path('login/', TemplateView.as_view(template_name='registration/login.html'), name='home'),
     path('signup/', SignUpView.as_view(), name='signup'),
     path("Vacancy", views.Vacancy_list_View.as_view(), name="vacancy_list"),
@@ -44,4 +48,4 @@ urlpatterns = [
     # path("Vacancy/<int:vacancy_id>/reduction", views.Vacancy_reduction_View.as_view(), name="vacancy_reduction"),
 ]
 
-urlpatterns = format_suffix_patterns(urlpatterns)
+#urlpatterns = format_suffix_patterns(urlpatterns)
