@@ -75,31 +75,31 @@ class ProfileDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-# class User_Profile_View(ListView):
-#     template_name = "profile/user_profile.html"
-#     context_object_name = "profile_form"
+class User_Profile_View(ListView):
+    template_name = "profile/user_profile.html"
+    context_object_name = "profile_form"
     
-#     def post(self, request, *args, **kwargs):
-#         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
+    def post(self, request, *args, **kwargs):
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
         
-#         if profile_form.is_valid():
-#             profile = request.user.userprofile
-#             profile.name = request.POST['name']
-#             profile.age = request.POST['age']
-#             profile.expirience = request.POST['expirience']
-#             profile.image = profile.image
-#             profile.save()
-#             profile_form.save()
+        if profile_form.is_valid():
+            profile = request.user.userprofile
+            profile.name = request.POST['name']
+            profile.age = request.POST['age']
+            profile.expirience = request.POST['expirience']
+            profile.image = profile.image
+            profile.save()
+            profile_form.save()
         
-#         else:
-#             return profile_form.errors
+        else:
+            return profile_form.errors
         
-#         return render(request, template_name=self.template_name, context={self.context_object_name: profile_form})
+        return render(request, template_name=self.template_name, context={self.context_object_name: profile_form})
     
-#     def get(self, request, *args, **kwargs):
-#         profile_form = ProfileUpdateForm(instance=request.user.userprofile)
+    def get(self, request, *args, **kwargs):
+        profile_form = ProfileUpdateForm(instance=request.user.userprofile)
         
-#         return render(request, template_name=self.template_name, context={self.context_object_name:profile_form})
+        return render(request, template_name=self.template_name, context={self.context_object_name:profile_form})
 
 
 class Change_Password_Views(ListView):
@@ -194,7 +194,6 @@ class VacancyDetail(RetrieveUpdateDestroyAPIView):
     def put (self, request, *args, **kwargs):
         if Vacancy.objects.get(id=kwargs['pk']).author == request.user:
             return self.update(request, *args, **kwargs)
-        return Http404("NEL'Z'A")
         
     @swagger_auto_schema(operation_description='',
                         request_body=serializers.PartialUpdateVacancySerializer(),
@@ -202,16 +201,16 @@ class VacancyDetail(RetrieveUpdateDestroyAPIView):
     def patch(self, request, *args, **kwargs):
         if Vacancy.objects.get(id=kwargs['pk']).author == request.user:
             return self.update(request, *args, **kwargs | {"partial": True})
-        return Http404("NEL'Z'A")
     
     @swagger_auto_schema(operation_description='DELETE /vacancy/{id}')
     def delete (self, request, *args, **kwargs):
         pk = kwargs["pk"]
         vacancy = get_object_or_404(self.queryset, id=pk)
+        print(vacancy.author == request.user)
         if vacancy.author == request.user:
             vacancy.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Http404("NEL'Z'A")
+        return Response()
 
 
 class Vacancy_create_View(ListView):

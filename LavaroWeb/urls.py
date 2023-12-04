@@ -1,9 +1,7 @@
 from django.urls import path
 from . import views
 from .views import SignUpView
-from django.views.generic.base import TemplateView
 from django.contrib.auth.views import PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
-from django.views.generic.base import RedirectView
 
 app_name = 'LavaroWeb'
 

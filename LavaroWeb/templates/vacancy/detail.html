@@ -41,7 +41,7 @@
         </div>
         <div class="card-body">
             <div class="justify-content-start">
-                <span class="h5"> Зарплата - <span id="salary"> </span> рублей</span>
+                <span class="h5"> Зарплата - <span id="salary"> </span>₽.</span>
             </div> <br>
             <span class="h5"> О работе: </span>
             <br>
@@ -50,17 +50,17 @@
         </div>
         <div class="card-footer mx-max d-flex justify-content-around" style="background: none">
             <small class="text-muted"> Автор - <span id="author"> </span>.</small>
-            <small class="text-muted"> Время - <span id="time"> </span></small>
+            <small class="text-muted"> Время - <span id="time"> </span>.</small>
             <small class="text-muted"> Дата - <span id="date"> </span>.</small>
         </div>
         <div class="d-flex justify-content-center">
-            <!-- {% if vacancy.author == user %}
-                {% comment %} <a role='button' class="btn btn-outline-danger" style="border-radius: 20px; margin:20px" href="get_id()"> Удалить вакансию </a> {% endcomment %}
-                {% comment %} <a role='button' class="btn btn-outline-danger" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:vacancy_reduction' get_id() %}"> Редактировать вакансию </a> {% endcomment %}
-            {% else %}
-                {% comment %} <a role='button' class="btn btn-outline-success" style="border-radius: 20px; margin:20px" href="{% url 'LavaroWeb:response' get_id() %}"> Откликнуться </a> {% endcomment %}
-            {% endif %} -->
-            
+            <!-- Откликнуться на вакансию -->
+            <a role='button' class="btn btn-outline-success" style="border-radius: 20px; margin:20px" onclick="do_response()"> Откликнуться </a>
+            <!-- Удалить вакансию -->
+            <a role='button' class="btn btn-outline-danger" style="border-radius: 20px; margin:20px" onclick="try_delete()"> Удалить вакансию </a>
+            <!-- Редактировать вакансию -->
+
+            <!-- Вернуться на главную -->
             <a role="button" class="btn btn-outline-primary" style="border-radius: 20px; margin:20px" href="/LavaroWeb/Vacancy"> На главную </a>
         </div>
     </div>
@@ -75,18 +75,39 @@
                 document.getElementById("salary").innerHTML += data.salary;
                 document.getElementById("about").innerHTML += data.requirement;
                 document.getElementById("extra").innerHTML += data.additionalDate;
-                document.getElementById("time").innerHTML += data.publish;
-                document.getElementById("date").innerHTML += data.created;
-
+                document.getElementById("time").innerHTML += data.publish.substring(data.publish.indexOf("T") + 1, data.publish.lastIndexOf(":"));
+                document.getElementById("date").innerHTML += data.created.substring(0, data.created.indexOf("T"));
                 let user = data.author;
-                fetch("http://127.0.0.1:8000/LavaroWeb/Profile/" + user)
+                fetch("http://127.0.0.1:8000/LavaroWeb/Profile/" + user) 
                     .then(res => {
                         return res.json();
                     })
                     .then(data => {
                         document.getElementById("author").innerHTML += data.name;
+                    })      
+            })
+        
+        function try_delete() {
+            fetch(window.location.href)
+                .then(res => {
+                    return res.json();
+                })
+                .then(data => {
+                    fetch("/LavaroWeb/Vacancy/" + data.id, {
+                        method: "DELETE",
                     })
-            })        
+                })
+        }
+
+        function do_response() {
+            fetch(window.location.href)
+                .then(res => {
+                    return res.json();
+                })
+                .then(data => {
+                    window.location.replace("http://127.0.0.1:8000/LavaroWeb/response/" + data.id);
+                })
+        }
     </script>
 
     <!-- Optional JavaScript -->
