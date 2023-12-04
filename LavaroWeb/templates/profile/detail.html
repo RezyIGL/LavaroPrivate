@@ -13,20 +13,20 @@
     <nav class="navbar navbar-dark sticky-top navbar-expand-lg" style="padding:20px; background-color: #0B2545; color:white; min-width: 100%;">
         <span class="navbar-brand mb-0 h2" style="margin-left:10px"> Lavaro </span>
       
-        <div class="justify-content-end w-100">
+        <div class="d-flex justify-content-end w-100">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="btn btn-outline-light" style="border:none; margin:10px" role="button" href="/LavaroWeb/Vacancy"> Вакансии </a>
                 </li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" style="border:none; margin:10px" role="button" href="/chats"> Чаты </a>
+                    <a class="btn btn-outline-light" style="border:none; margin:10px" role="button" href="/LavaroWeb/chats"> Чаты </a>
                 </li>
                 <li class="nav-item dropdown">
                     <span class="btn btn-outline-light" style="border:none; margin:10px" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Дополнительно </span>
                     <div class="dropdown-menu dropdown-menu-lg-right border-light" aria-labelledby="navbarDropdown" style="background-color: #0B2545; color:white">
-                        <a class="dropdown-item" style="color: white" href="#"> Настройки </a>
+                        <a class="dropdown-item" style="color: white" href="/LavaroWeb/userProfile"> Настройки </a>
                         <div class="dropdown-divider" style="background-color:white; margin-left:10px; margin-right:10px"></div>
-                        <a class="dropdown-item" style="color: #dc4535" href="#"> Выйти </a>
+                        <a class="dropdown-item" style="color: #dc4535" href="/logout"> Выйти </a>
                     </div>
                 </li>
             </ul>
@@ -69,13 +69,6 @@
                     document.getElementById("avatar").src = data.image;
                 }
             })
-
-        function changeData() {
-            fetch(window.location.href)
-            .then(res => {
-                
-            })
-        }
     </script>
 
     <!-- Optional JavaScript -->
