@@ -3,11 +3,6 @@ from .models import MyUser, UserProfile, Vacancy, Message
 from django.utils import timezone
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    # id = serializers.IntegerField()
-    # name = serializers.CharField()
-    # age = serializers.DateField()
-    # expirience = serializers.FloatField()
-    # image = serializers.ImageField(required=False)
 
     class Meta:
         model = UserProfile
@@ -47,7 +42,6 @@ class PartialUpdateVacancySerializer(serializers.ModelSerializer):
     salary = serializers.FloatField(required=False)
     additionalDate = serializers.CharField(required=False)
     
-    
     class Meta:
         model = Vacancy
         fields = ["requirement", "title", "salary", "additionalDate"]
@@ -59,6 +53,7 @@ class PartialUpdateVacancySerializer(serializers.ModelSerializer):
             instance.image = validated_data.get('image', instance.image)
             instance.save()
             return instance
+
 
 class Messageserializer(serializers.ModelSerializer):
     text = serializers.CharField(required=False)

@@ -21,10 +21,6 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ('username', 'email')
 
 class ProfileUpdateForm(forms.ModelForm):
-    # name = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-    # age = forms.DateField(widget=forms.DateInput(attrs={'class': 'form-control-file'}))
-    # expirience = forms.FloatField(widget=forms.NumberInput(attrs={'class': 'form-control-file'}))
-    # image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'form-control-file'}))
 
     class Meta:
         model = UserProfile
@@ -38,10 +34,6 @@ class ChangeVacancyForm(forms.ModelForm):
         fields = ['title', 'requirement', 'salary', 'additionalDate']
 
 class CreateVacancy(forms.ModelForm):
-    # title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    # requirement = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
-    # salary = forms.IntegerField()
-    # additionalDate = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
 
     class Meta:
         model = Vacancy
