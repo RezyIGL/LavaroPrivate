@@ -3,21 +3,35 @@ from .models import MyUser, UserProfile, Vacancy, Message
 from django.utils import timezone
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    
+    # id = serializers.IntegerField()
+    # name = serializers.CharField()
+    # age = serializers.DateField()
+    # expirience = serializers.FloatField()
+    # image = serializers.ImageField(required=False)
+
     class Meta:
         model = UserProfile
-        fields = ('__all__')
+        fields = ("__all__")
+        
 
 
 class PartitialUpdateUserProfileSerializer(serializers.ModelSerializer):
     name = serializers.CharField(required=False)
-    age = serializers.IntegerField(required=False)
+    age = serializers.DateField(required=False)
     expirience = serializers.FloatField(required=False)
     image = serializers.ImageField(required=False)
 
     class Meta:
         model = UserProfile
         fields = ['name', 'age', 'expirience', 'image']
+
+        def update(self, instance, validated_data):
+            instance.name = validated_data.get('name', instance.name)
+            instance.age = validated_data.get('age', instance.age)
+            instance.expirience = validated_data.get('expirience', instance.expirience)
+            instance.image = validated_data.get('image', instance.image)
+            instance.save()
+            return instance
 
 
 class VacancySerializer(serializers.ModelSerializer):
@@ -38,6 +52,13 @@ class PartialUpdateVacancySerializer(serializers.ModelSerializer):
         model = Vacancy
         fields = ["requirement", "title", "salary", "additionalDate"]
 
+    def update(self, instance, validated_data):
+            instance.name = validated_data.get('name', instance.name)
+            instance.age = validated_data.get('age', instance.age)
+            instance.expirience = validated_data.get('expirience', instance.expirience)
+            instance.image = validated_data.get('image', instance.image)
+            instance.save()
+            return instance
 
 class Messageserializer(serializers.ModelSerializer):
     text = serializers.CharField(required=False)

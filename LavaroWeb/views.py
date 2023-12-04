@@ -54,13 +54,25 @@ class ProfileDetail(APIView):
                         request_body=serializers.PartitialUpdateUserProfileSerializer(),
                         responses={200: serializers.UserProfileSerializer()})
     def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        profile = get_object_or_404(self.queryset, id=kwargs['pk'])
+        serializer = serializers.UserProfileSerializer(profile, data=request.data | {"user": kwargs['pk']})
+        if serializer.is_valid():
+            # serializer.update(profile, request.data)
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @swagger_auto_schema(operation_description='', 
                         request_body=serializers.PartitialUpdateUserProfileSerializer(),
                         responses={200: serializers.UserProfileSerializer()})
     def patch (self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs | {'partial': True})
+        profile = get_object_or_404(self.queryset, id=kwargs['pk'])
+        serializer = serializers.PartitialUpdateUserProfileSerializer(profile, data=request.data)
+        if serializer.is_valid():
+            # serializer.update(profile, request.data)
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class User_Profile_View(ListView):
