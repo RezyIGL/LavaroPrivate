@@ -175,9 +175,14 @@ class VacancyList(APIView):
 class VacancyDetail(RetrieveUpdateDestroyAPIView):
     queryset = Vacancy.objects.all()
     serializer_class = serializers.VacancySerializer
+    renderer_classes = [JSONRenderer, TemplateHTMLRenderer]
 
     @swagger_auto_schema(responses={200: serializers.VacancySerializer()})
     def get(self, request, *args, **kwargs):
+
+        if request.accepted_renderer.format == 'html':
+            return Response({'things': self.queryset}, template_name="vacancy/detail.html")
+
         pk = kwargs["pk"]
         vacancy = get_object_or_404(self.queryset, id=pk)
         serializer = serializers.VacancySerializer(vacancy)
