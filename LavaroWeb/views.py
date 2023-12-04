@@ -75,31 +75,31 @@ class ProfileDetail(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class User_Profile_View(ListView):
-    template_name = "profile/user_profile.html"
-    context_object_name = "profile_form"
+# class User_Profile_View(ListView):
+#     template_name = "profile/user_profile.html"
+#     context_object_name = "profile_form"
     
-    def post(self, request, *args, **kwargs):
-        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
+#     def post(self, request, *args, **kwargs):
+#         profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.userprofile)
         
-        if profile_form.is_valid():
-            profile = request.user.userprofile
-            profile.name = request.POST['name']
-            profile.age = request.POST['age']
-            profile.expirience = request.POST['expirience']
-            profile.image = profile.image
-            profile.save()
-            profile_form.save()
+#         if profile_form.is_valid():
+#             profile = request.user.userprofile
+#             profile.name = request.POST['name']
+#             profile.age = request.POST['age']
+#             profile.expirience = request.POST['expirience']
+#             profile.image = profile.image
+#             profile.save()
+#             profile_form.save()
         
-        else:
-            return profile_form.errors
+#         else:
+#             return profile_form.errors
         
-        return render(request, template_name=self.template_name, context={self.context_object_name: profile_form})
+#         return render(request, template_name=self.template_name, context={self.context_object_name: profile_form})
     
-    def get(self, request, *args, **kwargs):
-        profile_form = ProfileUpdateForm(instance=request.user.userprofile)
+#     def get(self, request, *args, **kwargs):
+#         profile_form = ProfileUpdateForm(instance=request.user.userprofile)
         
-        return render(request, template_name=self.template_name, context={self.context_object_name:profile_form})
+#         return render(request, template_name=self.template_name, context={self.context_object_name:profile_form})
 
 
 class Change_Password_Views(ListView):
@@ -228,37 +228,37 @@ class Vacancy_create_View(ListView):
         return render(request, template_name=self.template_name, context={self.context_object_name: vacancy_form})
 
 
-class Vacancy_reduction_View(ListView):
-    template_name = 'vacancy/reduction.html'
-    context_object_name = 'vacancy_form'
+# class Vacancy_reduction_View(ListView):
+#     template_name = 'vacancy/reduction.html'
+#     context_object_name = 'vacancy_form'
     
-    def post(self, request, *args, **kwargs):
-        vacancy_form = ChangeVacancyForm(request.POST)
+#     def post(self, request, *args, **kwargs):
+#         vacancy_form = ChangeVacancyForm(request.POST)
         
-        if vacancy_form.is_valid():
+#         if vacancy_form.is_valid():
             
-            vacancy = Vacancy.objects.get(author=request.user)
-            vacancy.title=request.POST['title']
-            vacancy.requirement=request.POST['requirement']
-            vacancy.salary=request.POST['salary']
-            vacancy.additionalDate = request.POST['additionalDate']
-            vacancy.save()
-            return HttpResponseRedirect(reverse("LavaroWeb:vacancy_detail", args=[vacancy.id]))
-        else:
-            return vacancy_form.errors
+#             vacancy = Vacancy.objects.get(author=request.user)
+#             vacancy.title=request.POST['title']
+#             vacancy.requirement=request.POST['requirement']
+#             vacancy.salary=request.POST['salary']
+#             vacancy.additionalDate = request.POST['additionalDate']
+#             vacancy.save()
+#             return HttpResponseRedirect(reverse("LavaroWeb:vacancy_detail", args=[vacancy.id]))
+#         else:
+#             return vacancy_form.errors
     
-    def get(self, request, *args, **kwargs):
-        vacancy_form = ChangeVacancyForm()
+#     def get(self, request, *args, **kwargs):
+#         vacancy_form = ChangeVacancyForm()
         
-        return render(request, template_name=self.template_name, context={self.context_object_name: vacancy_form})
+#         return render(request, template_name=self.template_name, context={self.context_object_name: vacancy_form})
 
 
-class Vacancy_delete_View(ListView):
+# class Vacancy_delete_View(ListView):
     
-    def get (self, request, vacancy_id, *args, **kwargs):
-        vacancy = Vacancy.objects.get(id = vacancy_id)
-        vacancy.delete()
-        return HttpResponseRedirect(reverse("LavaroWeb:vacancy_list"))
+#     def get (self, request, vacancy_id, *args, **kwargs):
+#         vacancy = Vacancy.objects.get(id = vacancy_id)
+#         vacancy.delete()
+#         return HttpResponseRedirect(reverse("LavaroWeb:vacancy_list"))
     
 
 class SignUpView(CreateView):
