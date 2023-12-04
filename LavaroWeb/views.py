@@ -192,20 +192,26 @@ class VacancyDetail(RetrieveUpdateDestroyAPIView):
                          request_body=serializers.PartialUpdateVacancySerializer(),
                          responses={200: serializers.VacancySerializer()})
     def put (self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+        if Vacancy.objects.get(id=kwargs['pk']).author == request.user:
+            return self.update(request, *args, **kwargs)
+        return Http404("NEL'Z'A")
         
     @swagger_auto_schema(operation_description='',
                         request_body=serializers.PartialUpdateVacancySerializer(),
                         responses={200: serializers.VacancySerializer()})
     def patch(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs | {"partial": True})
+        if Vacancy.objects.get(id=kwargs['pk']).author == request.user:
+            return self.update(request, *args, **kwargs | {"partial": True})
+        return Http404("NEL'Z'A")
     
     @swagger_auto_schema(operation_description='DELETE /vacancy/{id}')
     def delete (self, request, *args, **kwargs):
         pk = kwargs["pk"]
         vacancy = get_object_or_404(self.queryset, id=pk)
-        vacancy.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if vacancy.author == request.user:
+            vacancy.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Http404("NEL'Z'A")
 
 
 class Vacancy_create_View(ListView):
